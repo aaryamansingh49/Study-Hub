@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Campus Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2 class="logo">🎓 StudyHub</h2>
+        <ul>
+            <li class="active">Dashboard</li>
+            <li>Courses</li>
+            <li>Worksheets</li>
+            <li>Projects</li>
+            <li>Notices</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <!-- Topbar -->
+        <div class="topbar">
+            <input type="text" id="searchInput" placeholder="Search courses...">
+            <div class="profile">
+                <span>Prince | MCA</span>
+                <button id="darkToggle">🌙</button>
+            </div>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome">
+            <h1>Welcome Back!</h1>
+            <p>Access worksheets & project reports easily</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="cards">
+            <div class="card">
+                <h3>Total Worksheets</h3>
+                <p id="worksheetCount">0</p>
+            </div>
+            <div class="card">
+                <h3>Total Projects</h3>
+                <p id="projectCount">0</p>
+            </div>
+            <div class="card">
+                <h3>Courses</h3>
+                <p>8</p>
+            </div>
+        </div>
+
+        <!-- Course Section -->
+        <h2 class="section-title">Enrolled Courses</h2>
+        <div class="course-container" id="courseContainer"></div>
+
+    </div>
+
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
