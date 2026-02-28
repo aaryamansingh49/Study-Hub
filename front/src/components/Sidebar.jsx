@@ -12,9 +12,15 @@ function Sidebar() {
         <li>
           <Link to="/courses">Courses</Link>
         </li>
-        <li>Worksheets</li>
-        <li>Projects</li>
-        <li>Notices</li>
+        <li>
+        <Link to="/worksheets">Worksheets</Link>
+        </li>
+        <li>
+        <Link to="/projects">Projects</Link>
+        </li>
+        <li>
+        <Link to="/notices">Notices</Link>
+        </li>
       </ul>
     </div>
   );
