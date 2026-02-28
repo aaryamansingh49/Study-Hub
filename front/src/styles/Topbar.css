@@ -1,0 +1,55 @@
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+.topbar input {
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    width: 250px;
+    outline: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile button {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: white;
+}
+
+/* ===== DARK MODE (Topbar Controlled) ===== */
+
+.dark {
+    background: #1E1E2F;
+    color: white;
+}
+
+.dark .main {
+    background: #1E1E2F;
+}
+
+.dark .card,
+.dark .course-card {
+    background: #2A2A40;
+}
+
+.dark .topbar input {
+    background: #2A2A40;
+    color: white;
+}
+
+.dark .profile button {
+    background: #2A2A40;
+    color: white;
+}
