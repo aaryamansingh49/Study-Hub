@@ -1,25 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/Sidebar.css";
-function Sidebar() {
+
+function Sidebar({ sidebarOpen, setSidebarOpen }) {
   return (
-    <div className="sidebar">
-      <h2 className="logo"> StudyHub</h2>
+    <div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
+      <h2 className="logo">StudyHub</h2>
+
       <ul>
-        <li>
+        <li onClick={() => setSidebarOpen(false)}>
           <Link to="/">Dashboard</Link>
         </li>
-        <li>
+
+        <li onClick={() => setSidebarOpen(false)}>
           <Link to="/courses">Courses</Link>
         </li>
-        <li>
-        <Link to="/worksheets">Worksheets</Link>
+
+        <li onClick={() => setSidebarOpen(false)}>
+          <Link to="/saved">Saved Collection</Link>
         </li>
-        <li>
-        <Link to="/projects">Projects</Link>
+
+        <li onClick={() => setSidebarOpen(false)}>
+          <Link to="/projects">Projects</Link>
         </li>
-        <li>
-        <Link to="/notices">Notices</Link>
+
+        <li onClick={() => setSidebarOpen(false)}>
+          <Link to="/notices">Notices</Link>
         </li>
       </ul>
     </div>

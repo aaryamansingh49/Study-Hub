@@ -1,25 +1,31 @@
-import React from "react";
-import "../styles/StatsCards.css";
+// import React from "react";
+// import "../styles/StatsCards.css";
 
-function StatsCards({ worksheetCount = 0, projectCount = 0 }) {
-  return (
-    <div className="cards">
-      <div className="card">
-        <h3>Total Worksheets</h3>
-        <p>{worksheetCount}</p>
-      </div>
+// function StatsCards({
+//   worksheetCount = 0,
+//   projectCount = 0,
+//   programCount = 0
+// }) {
+//   return (
+//     <div className="cards">
 
-      <div className="card">
-        <h3>Total Projects</h3>
-        <p>{projectCount}</p>
-      </div>
+//       <div className="card">
+//         <h3>Total Worksheets</h3>
+//         <p>{worksheetCount}</p>
+//       </div>
 
-      <div className="card">
-        <h3>Courses</h3>
-        <p>{worksheetCount + projectCount}</p>
-      </div>
-    </div>
-  );
-}
+//       <div className="card">
+//         <h3>Total Projects</h3>
+//         <p>{projectCount}</p>
+//       </div>
 
-export default StatsCards;
+//       <div className="card">
+//         <h3>Total Programs</h3>
+//         <p>{programCount}</p>
+//       </div>
+
+//     </div>
+//   );
+// }
+
+// export default StatsCards;

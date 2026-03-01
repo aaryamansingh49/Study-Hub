@@ -10,10 +10,13 @@
     "author": "ASR",
     "license": "ISC",
     "dependencies": {
+        "bcryptjs": "^3.0.3",
         "cors": "^2.8.6",
         "dotenv": "^16.6.1",
         "express": "^4.22.1",
-        "mongoose": "^8.23.0"
+        "jsonwebtoken": "^9.0.3",
+        "mongoose": "^8.23.0",
+        "multer": "^2.1.0"
     },
     "devDependencies": {
         "nodemon": "^3.0.0"

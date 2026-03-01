@@ -7,7 +7,7 @@ function QuickAccess() {
 
   const actions = [
     { title: "Browse Subjects", path: "/courses", icon: "📚" },
-    { title: "View Worksheets", path: "/worksheets", icon: "📄" },
+    // { title: "View Worksheets", path: "/worksheets", icon: "📄" },
     { title: "View Projects", path: "/projects", icon: "🚀" },
     { title: "Check Notices", path: "/notices", icon: "📢" }
   ];

@@ -2,20 +2,30 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const path = require("path");
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
 const courseRoutes = require("./routes/courseRoutes");
 const worksheetRoutes = require("./routes/worksheetRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const statsRoutes = require("./routes/statsRoutes");
+
+
 
 app.use("/api/courses", courseRoutes);
 app.use("/api/worksheets", worksheetRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/stats", statsRoutes);
 
+// Static folder for PDFs
+app.use("/uploads", express.static("uploads"));
 // MongoDB Atlas Connection
 mongoose
   .connect(process.env.MONGO_URI)

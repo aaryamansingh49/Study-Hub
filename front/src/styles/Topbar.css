@@ -1,55 +1,182 @@
 .topbar {
+    height: 70px;
+    width: 100%;
+    background: white;
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
 }
 
-.topbar input {
+/* LEFT SIDE */
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* RIGHT SIDE */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+/* Menu Button */
+.menu-btn {
+    font-size: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: none;
+    color:black;
+}
+
+/* Search */
+.search-bar {
+    margin-left: 20px ;
     padding: 10px 20px;
     border-radius: 30px;
     border: none;
-    width: 250px;
+    width: 300px;
     outline: none;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.profile button {
+/* Theme Button */
+.theme-btn {
     border: none;
-    padding: 6px 10px;
-    border-radius: 50%;
+    background: transparent;
     cursor: pointer;
-    background: white;
+    font-size: 30px;
 }
 
-/* ===== DARK MODE (Topbar Controlled) ===== */
+.theme-text {
+    font-weight: 1000;
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media (max-width: 768px) {
+
+    .menu-btn {
+        display: block;
+    }
+
+    .search-bar {
+        width: 160px;
+       
+    }
+    .theme-btn {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 27px;
+    }
+    
+}
+
+
+/* ======================
+   DARK MODE
+====================== */
+
+
+/* ======================
+   DARK MODE FULL FIX
+====================== */
 
 .dark {
     background: #1E1E2F;
     color: white;
 }
 
-.dark .main {
+/* Topbar */
+
+.dark .topbar {
     background: #1E1E2F;
+    color: white;
 }
 
-.dark .card,
-.dark .course-card {
-    background: #2A2A40;
-}
-
-.dark .topbar input {
+.dark .search-bar {
     background: #2A2A40;
     color: white;
 }
 
-.dark .profile button {
+.dark .theme-btn {
+    color: white;
+}
+
+/* Worksheet Container */
+
+.dark .worksheet-container {
+    background: #1E1E2F;
+    color: white;
+}
+
+/* Cards */
+
+.dark .card,
+.dark .course-card,
+.dark .quick-card,
+.dark .recent-card,
+.dark .worksheet-card {
+    background: #2A2A40;
+    color: white;
+}
+
+/* 🔥 FORCE ALL TEXT WHITE */
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+    color: white !important;
+}
+
+.dark p,
+.dark span,
+.dark small {
+    color: #cbd5e1 !important;
+}
+
+/* Download Count */
+
+.dark .download-count {
+    background: #3a3a55;
+    color: #cbd5e1;
+}
+
+/* Buttons */
+
+.dark .preview-btn,
+.dark .save-btn {
+    background: #3a3a55;
+    color: #cbd5e1;
+}
+
+.dark .preview-btn:hover {
+    background: #4c4c70;
+}
+
+.dark .save-btn.saved {
+    background: linear-gradient(90deg,#ff4d6d,#ff758f);
+    color: white;
+}
+
+.dark .download-btn {
+    background: linear-gradient(90deg,#8B5CF6,#A78BFA);
+    color: white;
+}
+
+.dark .back-btn {
     background: #2A2A40;
     color: white;
 }

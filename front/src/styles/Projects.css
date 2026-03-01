@@ -1,0 +1,49 @@
+.projects-coming {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  }
+  
+  .projects-box {
+    text-align: center;
+    padding: 60px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .projects-title {
+    font-size: 48px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    animation: glow 2s infinite alternate;
+  }
+  
+  .projects-subtitle {
+    font-size: 20px;
+    color: #dcdcdc;
+  }
+  
+  /* Floating Animation */
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  /* Glow Animation */
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 10px #7b5cff, 0 0 20px #7b5cff;
+    }
+    to {
+      text-shadow: 0 0 20px #9b7bff, 0 0 40px #9b7bff;
+    }
+  }

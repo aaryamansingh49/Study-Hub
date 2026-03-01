@@ -4,7 +4,7 @@ import "../styles/Welcome.css";
 function Welcome() {
   return (
     <div className="welcome">
-      <h1>Welcome Back!</h1>
+      <h1>Welcome </h1>
       <p>Access worksheets & project reports easily</p>
     </div>
   );
