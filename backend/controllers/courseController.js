@@ -1,24 +1,37 @@
 const Course = require("../models/Course");
 
-// Get all courses
+// GET Courses (with optional filters)
 exports.getCourses = async (req, res) => {
   try {
-    const courses = await Course.find().sort({ createdAt: -1 });
+    const { program, semester } = req.query;
+
+    let filter = {};
+
+    if (program) {
+      filter.program = program;
+    }
+
+    if (semester) {
+      filter.semester = semester;
+    }
+
+    const courses = await Course.find(filter).sort({ createdAt: -1 });
+
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ message: "Error fetching courses", error });
   }
 };
 
-// Create new course
+// CREATE Course
 exports.createCourse = async (req, res) => {
   try {
-    const { name, semester, department } = req.body;
+    const { program, semester, subject } = req.body;
 
     const newCourse = new Course({
-      name,
+      program,
       semester,
-      department
+      subject
     });
 
     await newCourse.save();

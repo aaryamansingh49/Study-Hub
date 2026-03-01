@@ -1,0 +1,28 @@
+.quick-section {
+    margin-top: 40px;
+  }
+  
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .quick-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: 0.3s ease;
+    text-align: center;
+  }
+  
+  .quick-card:hover {
+    transform: translateY(-6px);
+  }
+  
+  .quick-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
