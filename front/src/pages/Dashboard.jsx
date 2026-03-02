@@ -5,15 +5,16 @@ import Welcome from "../components/Welcome";
 // import StatsCards from "../components/StatsCards";
 import QuickAccess from "../components/QuickAccess";
 import RecentlyAdded from "../components/RecentlyAdded";
-import "../styles/Layout.css";
+// import "../styles/Layout.css";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
 
-  const [stats, setStats] = useState({
-    worksheetCount: 0,
-    projectCount: 0,
-    courseCount: 0
-  });
+  // const [stats, setStats] = useState({
+  //   worksheetCount: 0,
+  //   projectCount: 0,
+  //   courseCount: 0
+  // });
 
   useEffect(() => {
     fetchStats();
@@ -29,19 +30,19 @@ function Dashboard() {
   };
 
   return (
-    <>
-      {/* <Topbar /> */}
+    <div className="dashboard">
+
       <Welcome />
 
-      {/* <StatsCards
-        worksheetCount={stats.worksheetCount}
-        projectCount={stats.projectCount}
-        programCount={stats.programCount}
-      /> */}
+      <div className="dashboard-section">
+        <QuickAccess />
+      </div>
 
-      <QuickAccess />
-      <RecentlyAdded />
-    </>
+      <div className="dashboard-section">
+        <RecentlyAdded />
+      </div>
+
+    </div>
   );
 }
 

@@ -1,10 +1,4 @@
-    /* ==========================
-   CONTAINER
-========================== */
 
-/* ==========================
-   CONTAINER
-========================== */
 
   /* Header */
   
@@ -44,7 +38,8 @@
   /* Card */
   
   .saved-card {
-    background: white;
+    background: var(--bg-card);
+    color: var(--text-main);
     padding: 25px;
     border-radius: 18px;
     box-shadow: 0 12px 25px rgba(0,0,0,0.08);
@@ -62,7 +57,7 @@
   
   .saved-downloads {
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 15px;
   }
   
@@ -78,8 +73,8 @@
     padding: 8px;
     border-radius: 25px;
     border: none;
-    background: #e0e7ff;
-    color: #3730a3;
+    background: var(--btn-light);
+    color: var(--text-main);
     cursor: pointer;
   }
   
@@ -89,7 +84,7 @@
     border-radius: 25px;
     border: none;
     background: linear-gradient(90deg,#ff4d6d,#ff758f);
-    color: white;
+  color: white;
     cursor: pointer;
   }
   
@@ -101,22 +96,7 @@
     color: #777;
   }
   
-  /* ==========================
-     DARK MODE SUPPORT
-  ========================== */
-  
-  .dark .saved-container {
-    background: #1E1E2F;
-  }
-  
-  .dark .saved-card {
-    background: #2A2A40;
-    color: white;
-  }
-  
-  .dark .saved-downloads {
-    color: #cbd5e1;
-  }
+ 
 
   @media (max-width: 768px) {
 

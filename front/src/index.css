@@ -1,0 +1,25 @@
+:root {
+    --bg-main: #F5F7FB;
+    --bg-card: #ffffff;
+    --bg-secondary: #f1f5f9;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    --btn-light: #e0e7ff;
+    --btn-muted: #f1f5f9;
+  }
+  
+  body.dark {
+    --bg-main: #0F172A;
+    --bg-card: #1E293B;
+    --bg-secondary: #2A2A40;
+    --text-main: #ffffff;
+    --text-muted: #cbd5e1;
+    --btn-light: #2A2A40;
+    --btn-muted: #3a3a55;
+  }
+  
+  body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    transition: 0.3s ease;
+  }

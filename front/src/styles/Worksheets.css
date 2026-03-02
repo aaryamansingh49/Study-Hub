@@ -6,7 +6,7 @@
     padding: 50px 20px;
     min-height: 100vh;
     width: 100%;
-    background: linear-gradient(135deg, #f8f9ff, #eef2ff);
+    background: var(--bg-main);
 
     display: flex;
     flex-direction: column;
@@ -43,7 +43,7 @@
 .header-text p {
     margin: 4px 0 0;
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
 }
 
 .worksheet-header {
@@ -57,7 +57,8 @@
     font-size: 30px;
     font-weight: 600;
     margin: 0;
-    color: #222;
+    color: var(--text-main);
+
 }
 
 .back-btn {
@@ -93,7 +94,8 @@
 ================================= */
 
 .worksheet-card {
-    background: #ffffff;
+    background: var(--bg-card);
+  color: var(--text-main);
     padding: 25px;
     border-radius: 18px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.08);
@@ -119,11 +121,13 @@
     font-size: 18px;
     font-weight: 600;
     margin: 0;
+    color: var(--text-main);
 }
 
 .download-count {
     font-size: 12px;
-    background: #f3f4f6;
+    background: var(--bg-secondary);
+  color: var(--text-muted);
     padding: 5px 10px;
     border-radius: 15px;
 }
@@ -153,8 +157,8 @@
 /* Preview */
 
 .preview-btn {
-    background: #e0e7ff;
-    color: #3730a3;
+    background: var(--btn-light);
+  color: var(--text-main);
 }
 
 .preview-btn:hover {
@@ -177,8 +181,8 @@
 
 .save-btn {
     max-width: 110px;
-    background: #f1f5f9;
-    color: #444;
+    background: var(--btn-muted);
+    color: var(--text-main);
 }
 
 .save-btn.saved {
@@ -196,7 +200,7 @@
 .loading,
 .no-data {
     font-size: 16px;
-    color: #777;
+    color: var(--text-muted);
 }
 
 

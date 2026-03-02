@@ -1,15 +1,16 @@
 .recent-section {
-    margin-top: 50px;
-  }
-  
-  .recent-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 25px;
-  }
-  
-  .recent-card {
-  background: #f5f5f5;
+  margin-top: 50px;
+}
+
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.recent-card {
+  background: var(--bg-card);
+  color: var(--text-main);
   padding: 25px;
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
@@ -21,8 +22,8 @@
 }
 
 .recent-card h3 {
-  font-size: 20px;
   margin-bottom: 15px;
+  color: var(--text-main);
 }
 
 .recent-card button {

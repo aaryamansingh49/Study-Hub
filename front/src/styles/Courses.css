@@ -10,6 +10,7 @@
     font-size: 30px;
     font-weight: 600;
     margin-bottom: 25px;
+    color: var(--text-main);
 }
 
 /* ===============================
@@ -26,9 +27,10 @@
     padding: 12px 15px;
     width: 250px;
     border-radius: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--bg-secondary);
     outline: none;
-    background: #fff;
+    background: var(--bg-card);
+    color: var(--text-main);
     font-size: 14px;
     transition: 0.3s ease;
 }
