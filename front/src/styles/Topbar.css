@@ -1,7 +1,22 @@
 /* =========================
    TOPBAR BASE
 ========================= */
+.topbar-logo {
+    display: flex;
+    align-items: center;
+}
 
+.topbar-logo img {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.topbar-logo img:hover {
+    transform: scale(1.05);
+}
 .topbar {
     height: 70px;
     background: var(--bg-card);

@@ -4,9 +4,9 @@
 
 .layout {
     display: flex;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    width: 100%;  
+    min-height: 100vh;
+    overflow-x: hidden;
     background: var(--bg-main);
     transition: background 0.3s ease;
 }
@@ -85,6 +85,8 @@ body.dark .content-wrapper::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.2);
 }
 
+
+
 /* =========================
    RESPONSIVE
 ========================= */
@@ -92,17 +94,21 @@ body.dark .content-wrapper::-webkit-scrollbar-thumb {
 @media (max-width: 768px) {
 
     .content-wrapper {
-        padding: 20px 15px;
+        padding: 15px;
     }
 
     .sidebar {
         position: fixed;
         left: -100%;
         top: 0;
+        width: 260px;              /* 🔥 Fixed width */
+        max-width: 30%;            /* Safety */
         height: 100%;
         z-index: 1000;
-        transition: 0.3s ease;
+        border-radius: 0 20px 20px 0;
+        box-shadow: 8px 0 30px rgba(0,0,0,0.2);
     }
+    
 
     .sidebar.active {
         left: 0;

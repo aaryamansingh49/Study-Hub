@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineBookOpen } from "react-icons/hi2";
 import "../styles/RecentlyAdded.css";
 
 function RecentlyAdded() {
@@ -27,34 +28,52 @@ function RecentlyAdded() {
 
   return (
     <div className="recent-section">
-      <h2 className="section-title">Recently Added</h2>
-
+  
+      {/* ================= HEADER ================= */}
+      <div className="recent-header-main">
+        <h2>Recently Added</h2>
+      </div>
+  
+      {/* ================= STATES ================= */}
       {loading ? (
         <p className="loading-text">Loading recent courses...</p>
       ) : courses.length === 0 ? (
         <p className="empty-text">No recent courses found.</p>
       ) : (
+  
+        /* ================= GRID ================= */
         <div className="recent-grid">
-          {courses.map((course) => (
+          {courses.map((course, index) => (
+            
             <div key={course._id} className="recent-card">
-
-              <div className="recent-header">
-                <h3>{course.subject}</h3>
+  
+              {/* ---------- CARD TOP ---------- */}
+              <div className="recent-card-top">
+  
+                <div className={`recent-icon icon-${index % 3}`}>
+                  <HiOutlineBookOpen />
+                </div>
+  
+                <div className="recent-content">
+                  <h3>{course.subject}</h3>
+  
+                  <p className="recent-sub">
+                    {course.program} • Semester {course.semester}
+                  </p>
+                </div>
+  
               </div>
-
-              <div className="recent-info">
-                <p><span>Program:</span> {course.program}</p>
-                <p><span>Semester:</span> {course.semester}</p>
-              </div>
-
+  
+              {/* ---------- BUTTON ---------- */}
               <button
-                className="recent-btn"
+                className="recent-small-btn"
                 onClick={() => navigate(`/worksheets/${course._id}`)}
               >
-                View Worksheets →
+                View Worksheets
               </button>
-
+  
             </div>
+  
           ))}
         </div>
       )}

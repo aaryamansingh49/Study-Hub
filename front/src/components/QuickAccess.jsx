@@ -1,15 +1,34 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FiBookOpen, FiFolder, FiBell } from "react-icons/fi";
+import { 
+  HiOutlineBookOpen, 
+  HiOutlineFolderOpen, 
+  HiOutlineBell 
+} from "react-icons/hi2";
 import "../styles/QuickAccess.css";
 
 function QuickAccess() {
   const navigate = useNavigate();
 
   const actions = [
-    { title: "Browse Subjects", path: "/courses", icon: <FiBookOpen /> },
-    { title: "View Projects", path: "/projects", icon: <FiFolder /> },
-    { title: "Check Notices", path: "/notices", icon: <FiBell /> }
+    { 
+      title: "Subjects", 
+      subtitle: "View all subjects",
+      path: "/courses", 
+      icon: <HiOutlineBookOpen /> 
+    },
+    { 
+      title: "Projects", 
+      subtitle: "Manage your projects",
+      path: "/projects", 
+      icon: <HiOutlineFolderOpen /> 
+    },
+    { 
+      title: "Notices", 
+      subtitle: "Check latest notices",
+      path: "/notices", 
+      icon: <HiOutlineBell /> 
+    }
   ];
 
   return (
@@ -23,8 +42,15 @@ function QuickAccess() {
             className="quick-card"
             onClick={() => navigate(item.path)}
           >
-            <div className="quick-icon">{item.icon}</div>
-            <h3>{item.title}</h3>
+          <div className={`quick-icon icon-${index}`}>
+  {React.cloneElement(item.icon, { className: "icon-svg" })}
+</div>
+
+            <div className="quick-content">
+              <h3>{item.title}</h3>
+              <p>{item.subtitle}</p>
+            </div>
+
           </div>
         ))}
       </div>

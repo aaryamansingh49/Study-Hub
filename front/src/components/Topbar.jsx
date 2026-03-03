@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiMenu, FiSun, FiMoon, FiSearch } from "react-icons/fi";
+// import logo from "../assets/workshit-logo.png";
 import "../styles/Topbar.css";
 
 function Topbar({ setSidebarOpen }) {

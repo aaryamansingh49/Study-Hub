@@ -44,36 +44,77 @@
 /* Hover lift + glow */
 .quick-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark hover glow */
 body.dark .quick-card:hover {
-  box-shadow: 0 20px 50px rgba(99,102,241,0.3);
+  box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
 }
 
 /* =========================
-   ICON
+   ICON (Image Style)
+========================= */
+
+/* =========================
+   ICON (Premium Gradient Style)
+========================= */
+
+/* =========================
+   ICON BASE STYLE
+========================= */
+/* =========================
+   ICON BASE STYLE
 ========================= */
 
 .quick-icon {
-  font-size: 30px;
-  margin-bottom: 15px;
-  color: #6366F1;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  color: white;
   transition: 0.3s ease;
 }
 
+/* Subjects */
+.quick-icon.icon-0 {
+  background: linear-gradient(135deg,#6366F1,#4F46E5);
+}
+
+/* Projects */
+.quick-icon.icon-1 {
+  background: linear-gradient(135deg,#10B981,#059669);
+}
+
+/* Notices */
+.quick-icon.icon-2 {
+  background: linear-gradient(135deg,#F97316,#EA580C);
+}
+
+.icon-svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Hover */
 .quick-card:hover .quick-icon {
-  transform: scale(1.2);
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-/* Title */
-.quick-card h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
+.quick-card:hover .quick-icon {
+  transform: scale(1.1);
 }
 
+/* Subtitle */
+.quick-content p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
 /* =========================
    GLASS EFFECT (DARK)
 ========================= */
@@ -81,7 +122,7 @@ body.dark .quick-card:hover {
 body.dark .quick-card {
   background: linear-gradient(
     145deg,
-    rgba(30,41,59,0.9),
-    rgba(15,23,42,0.95)
+    rgba(30, 41, 59, 0.9),
+    rgba(15, 23, 42, 0.95)
   );
 }

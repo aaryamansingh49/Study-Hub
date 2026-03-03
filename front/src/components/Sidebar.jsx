@@ -1,13 +1,24 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FiHome, FiBook, FiBookmark, FiFolder, FiBell } from "react-icons/fi";
+import {
+  FiHome,
+  FiBook,
+  FiBookmark,
+  FiFolder,
+  FiBell,
+  FiInfo,
+  FiMail,
+} from "react-icons/fi";
 import "../styles/Sidebar.css";
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   return (
     <div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
-      
-      <h2 className="logo">StudyHub</h2>
+      <div className="logo">
+        <h2>
+          Work<span>shit</span>
+        </h2>
+      </div>
 
       <ul>
         <li onClick={() => setSidebarOpen(false)}>
@@ -42,6 +53,20 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           <NavLink to="/notices">
             <FiBell className="icon" />
             <span>Notices</span>
+          </NavLink>
+        </li>
+
+        <li onClick={() => setSidebarOpen(false)}>
+          <NavLink to="/about">
+            <FiInfo className="icon" />
+            <span>About</span>
+          </NavLink>
+        </li>
+
+        <li onClick={() => setSidebarOpen(false)}>
+          <NavLink to="/contact">
+            <FiMail className="icon" />
+            <span>Contact</span>
           </NavLink>
         </li>
       </ul>

@@ -18,6 +18,8 @@ import AdminLogin from "./pages/AdminLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WorksheetDetails from "./pages/WorksheetDetails";
 import SavedCollection from "./pages/SavedCollection";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 /* 🔥 Animated Router Wrapper */
 function AnimatedRoutes() {
@@ -36,6 +38,8 @@ function AnimatedRoutes() {
           <Route path="projects" element={<Projects />} />
           <Route path="notices" element={<Notices />} />
           <Route path="saved" element={<SavedCollection />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
         </Route>
 
         {/* Admin Routes */}
