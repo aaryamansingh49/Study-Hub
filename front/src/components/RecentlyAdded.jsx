@@ -5,6 +5,7 @@ import "../styles/RecentlyAdded.css";
 
 function RecentlyAdded() {
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,6 +20,8 @@ function RecentlyAdded() {
       setCourses(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -26,23 +29,35 @@ function RecentlyAdded() {
     <div className="recent-section">
       <h2 className="section-title">Recently Added</h2>
 
-      <div className="recent-grid">
-      {courses.map((course) => (
-  <div key={course._id} className="recent-card">
-    
-    <h3>{course.subject}</h3>
+      {loading ? (
+        <p className="loading-text">Loading recent courses...</p>
+      ) : courses.length === 0 ? (
+        <p className="empty-text">No recent courses found.</p>
+      ) : (
+        <div className="recent-grid">
+          {courses.map((course) => (
+            <div key={course._id} className="recent-card">
 
-    <p><strong>Program:</strong> {course.program}</p>
-    <p><strong>Semester:</strong> {course.semester}</p>
+              <div className="recent-header">
+                <h3>{course.subject}</h3>
+              </div>
 
-    <button
-      onClick={() => navigate(`/worksheets/${course._id}`)}
-    >
-      View Worksheets
-    </button>
-  </div>
-))}
-      </div>
+              <div className="recent-info">
+                <p><span>Program:</span> {course.program}</p>
+                <p><span>Semester:</span> {course.semester}</p>
+              </div>
+
+              <button
+                className="recent-btn"
+                onClick={() => navigate(`/worksheets/${course._id}`)}
+              >
+                View Worksheets →
+              </button>
+
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

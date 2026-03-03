@@ -1,39 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FiMenu, FiSun, FiMoon, FiSearch } from "react-icons/fi";
 import "../styles/Topbar.css";
 
 function Topbar({ setSidebarOpen }) {
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
 
-  const toggleDark = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle("dark");
-  };
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   return (
     <div className="topbar">
 
-      {/* LEFT SECTION */}
+      {/* LEFT */}
       <div className="topbar-left">
+
         <button
           className="menu-btn"
           onClick={() => setSidebarOpen(prev => !prev)}
         >
-          ☰
+          <FiMenu />
         </button>
 
-        <input
-          type="text"
-          placeholder="Search courses..."
-          className="search-bar"
-        />
+        <div className="search-container">
+          <FiSearch className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search courses..."
+          />
+        </div>
+
       </div>
 
-      {/* RIGHT SECTION */}
+      {/* RIGHT */}
       <div className="topbar-right">
-        <button className="theme-btn" onClick={toggleDark}>
-          {darkMode ? "☀️" : "🌙"}
+
+        <button
+          className="theme-btn"
+          onClick={() => setDarkMode(prev => !prev)}
+        >
+          {darkMode ? <FiSun /> : <FiMoon />}
         </button>
+
       </div>
 
     </div>

@@ -15,21 +15,26 @@ function Courses() {
 
   const fetchCourses = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `http://localhost:5000/api/courses?program=${program}&semester=${semester}`
       );
-
       setCourses(response.data);
-      setLoading(false);
     } catch (err) {
+      console.log(err);
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <div className="courses-page">
-      <h1 className="courses-title">All Subjects</h1>
-  
+
+      <div className="courses-header">
+        <h1>All Subjects</h1>
+        <p>Browse subjects by program and semester</p>
+      </div>
+
       <div className="filters">
         <select
           className="filter-select"
@@ -39,7 +44,7 @@ function Courses() {
           <option value="MCA">MCA</option>
           <option value="BCA">BCA</option>
         </select>
-  
+
         <select
           className="filter-select"
           onChange={(e) => setSemester(e.target.value)}
@@ -51,8 +56,13 @@ function Courses() {
           <option value="4">Semester 4</option>
         </select>
       </div>
-  
-      {loading ? <p>Loading...</p> : <CourseList courses={courses} />}
+
+      {loading ? (
+        <div className="loading-state">Loading courses...</div>
+      ) : (
+        <CourseList courses={courses} />
+      )}
+
     </div>
   );
 }

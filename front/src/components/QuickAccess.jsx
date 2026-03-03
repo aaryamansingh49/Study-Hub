@@ -1,15 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FiBookOpen, FiFolder, FiBell } from "react-icons/fi";
 import "../styles/QuickAccess.css";
 
 function QuickAccess() {
   const navigate = useNavigate();
 
   const actions = [
-    { title: "Browse Subjects", path: "/courses", icon: "📚" },
-    // { title: "View Worksheets", path: "/worksheets", icon: "📄" },
-    { title: "View Projects", path: "/projects", icon: "🚀" },
-    { title: "Check Notices", path: "/notices", icon: "📢" }
+    { title: "Browse Subjects", path: "/courses", icon: <FiBookOpen /> },
+    { title: "View Projects", path: "/projects", icon: <FiFolder /> },
+    { title: "Check Notices", path: "/notices", icon: <FiBell /> }
   ];
 
   return (

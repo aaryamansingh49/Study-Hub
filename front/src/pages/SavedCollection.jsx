@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { getSaved, toggleSaved } from "../utils/savedManager";
 import "../styles/SavedCollection.css";
 
@@ -26,68 +27,65 @@ const SavedCollection = () => {
 
   const removeSaved = (id) => {
     toggleSaved("worksheets", id);
-    setWorksheets(worksheets.filter(ws => ws._id !== id));
+    setWorksheets(worksheets.filter((ws) => ws._id !== id));
+  
+    toast("Removed from saved ");
   };
 
   return (
     <div className="saved-container">
-
       <div className="saved-header">
-        <h2>Saved Worksheets</h2>
-        <span className="saved-count">
-          {worksheets.length} Saved
-        </span>
+        <div>
+          <h2>Saved Worksheets</h2>
+          <p className="saved-subtitle">
+            Access your bookmarked worksheets anytime
+          </p>
+        </div>
+
+        <span className="saved-count">{worksheets.length} Saved</span>
       </div>
 
       {loading ? (
         <p className="saved-loading">Loading...</p>
       ) : worksheets.length > 0 ? (
         <div className="saved-grid">
-          {worksheets.map(ws => (
+          {worksheets.map((ws) => (
             <div key={ws._id} className="saved-card">
+              <h3>{ws.title}</h3>
 
-            <h3>{ws.title}</h3>
-          
-            <p className="saved-meta">
-              <strong>Course:</strong> {ws.course?.program} - Sem {ws.course?.semester} - {ws.course?.subject}
-            </p>
-          
-            <p className="saved-meta">
-              <strong>Worksheet:</strong> {ws.worksheetNumber}
-            </p>
-          
-            <p className="saved-downloads">
-              {ws.downloads} Downloads
-            </p>
-          
-            <div className="saved-actions">
-              <button
-                onClick={() =>
-                  window.open(
-                    `http://localhost:5000/${ws.fileUrl}`,
-                    "_blank"
-                  )
-                }
-                className="saved-preview"
-              >
-                Preview
-              </button>
-          
-              <button
-                onClick={() => removeSaved(ws._id)}
-                className="saved-remove"
-              >
-                Remove
-              </button>
+              <p className="saved-meta">
+                <strong>Course:</strong> {ws.course?.program} - Sem{" "}
+                {ws.course?.semester} - {ws.course?.subject}
+              </p>
+
+              <p className="saved-meta">
+                <strong>Worksheet:</strong> {ws.worksheetNumber}
+              </p>
+
+              <p className="saved-downloads">{ws.downloads} Downloads</p>
+
+              <div className="saved-actions">
+                <button
+                  onClick={() =>
+                    window.open(`http://localhost:5000/${ws.fileUrl}`, "_blank")
+                  }
+                  className="saved-preview"
+                >
+                  Preview
+                </button>
+
+                <button
+                  onClick={() => removeSaved(ws._id)}
+                  className="saved-remove"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
-          
-          </div>
           ))}
         </div>
       ) : (
-        <p className="saved-empty">
-          No saved worksheets yet.
-        </p>
+        <p className="saved-empty">No saved worksheets yet.</p>
       )}
     </div>
   );

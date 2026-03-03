@@ -1,17 +1,34 @@
 /* ===============================
-   COURSES PAGE LAYOUT
+   COURSES PAGE
 ================================= */
 
 .courses-page {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
-.courses-title {
+/* ===============================
+   HEADER
+================================= */
+
+.courses-header h1 {
     font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 25px;
+    font-weight: 700;
+    margin: 0;
     color: var(--text-main);
 }
+
+.courses-header p {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* ===============================
+   FILTER SECTION
+================================= */
 
 /* ===============================
    FILTER SECTION
@@ -19,25 +36,55 @@
 
 .filters {
     display: flex;
-    gap: 20px;
-    margin-bottom: 25px;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
+/* Compact Premium Select */
+
 .filter-select {
-    padding: 12px 15px;
-    width: 250px;
-    border-radius: 10px;
-    border: 1px solid var(--bg-secondary);
+    padding: 10px 16px;
+    width: 200px;              /* 🔥 fixed width */
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
     outline: none;
     background: var(--bg-card);
     color: var(--text-main);
     font-size: 14px;
     transition: 0.3s ease;
+    cursor: pointer;
 }
 
+/* Focus Glow */
+
 .filter-select:focus {
-    border-color: #8B5CF6;
-    box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+    border-color: #6366F1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+}
+
+/* Dark glass effect */
+
+body.dark .filter-select {
+    background: linear-gradient(
+        145deg,
+        rgba(30,41,59,0.9),
+        rgba(15,23,42,0.95)
+    );
+}
+
+/* ===============================
+   LOADING
+================================= */
+
+.loading-state {
+    padding: 30px;
+    border-radius: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 14px;
+    box-shadow: var(--shadow-soft);
 }
 
 /* ===============================
@@ -45,8 +92,13 @@
 ================================= */
 
 @media (max-width: 768px) {
+     .courses-header {
+        text-align: center;
+    }
+
     .filters {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .filter-select {

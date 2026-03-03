@@ -1,29 +1,87 @@
+/* =========================
+   QUICK SECTION
+========================= */
+
 .quick-section {
-  margin-top: 40px;
+  margin-top: 10px;
 }
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: var(--text-main);
+}
+
+/* =========================
+   GRID
+========================= */
 
 .quick-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
 }
+
+/* =========================
+   CARD
+========================= */
 
 .quick-card {
   background: var(--bg-card);
   color: var(--text-main);
-  padding: 25px;
-  border-radius: 18px;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+  padding: 30px 25px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Hover lift + glow */
 .quick-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
+
+/* Dark hover glow */
+body.dark .quick-card:hover {
+  box-shadow: 0 20px 50px rgba(99,102,241,0.3);
+}
+
+/* =========================
+   ICON
+========================= */
 
 .quick-icon {
-  font-size: 28px;
-  margin-bottom: 10px;
+  font-size: 30px;
+  margin-bottom: 15px;
+  color: #6366F1;
+  transition: 0.3s ease;
+}
+
+.quick-card:hover .quick-icon {
+  transform: scale(1.2);
+}
+
+/* Title */
+.quick-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* =========================
+   GLASS EFFECT (DARK)
+========================= */
+
+body.dark .quick-card {
+  background: linear-gradient(
+    145deg,
+    rgba(30,41,59,0.9),
+    rgba(15,23,42,0.95)
+  );
 }

@@ -3,14 +3,12 @@
 ================================= */
 
 .worksheet-container {
-    padding: 50px 20px;
-    min-height: 100vh;
+    padding: 40px 0;
     width: 100%;
-    background: var(--bg-main);
-
     display: flex;
     flex-direction: column;
-    align-items: center;   /* 🔥 CENTER FIX */
+    align-items: flex-start; /* 🔥 left aligned */
+    gap: 30px;
 }
 
 /* Limit content width */
@@ -20,10 +18,15 @@
     max-width: 1100px;
 }
 
-
 /* ===============================
    HEADER
 ================================= */
+
+.worksheet-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
 .header-left {
     display: flex;
@@ -31,52 +34,54 @@
     gap: 18px;
 }
 
-.header-text {
+/* tagline */
+.worksheet-title-group {
     display: flex;
     flex-direction: column;
 }
 
+.worksheet-tagline {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
 .header-text h2 {
     margin: 0;
+    font-size: 26px;
+    font-weight: 700;
 }
 
 .header-text p {
-    margin: 4px 0 0;
+    margin-top: 6px;
     font-size: 14px;
     color: var(--text-muted);
 }
 
-.worksheet-header {
-    margin-bottom: 40px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.worksheet-header h2 {
-    font-size: 30px;
-    font-weight: 600;
-    margin: 0;
-    color: var(--text-main);
-
-}
+/* Modern Back Button */
 
 .back-btn {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
-    border: none;
-    background: #222;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-main);
     font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .back-btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
+/* Dark mode back glow */
+body.dark .back-btn:hover {
+    box-shadow: 0 8px 25px rgba(99,102,241,0.25);
+}
 
 /* ===============================
    GRID
@@ -84,10 +89,9 @@
 
 .worksheet-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
 }
-
 
 /* ===============================
    CARD
@@ -95,98 +99,111 @@
 
 .worksheet-card {
     background: var(--bg-card);
-  color: var(--text-main);
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-    transition: 0.3s ease;
+    border-radius: 22px;
+    padding: 28px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .worksheet-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
+/* Dark glass effect */
+body.dark .worksheet-card {
+    background: linear-gradient(
+        145deg,
+        rgba(30,41,59,0.9),
+        rgba(15,23,42,0.95)
+    );
+}
 
-/* Card Top */
+body.dark .worksheet-card:hover {
+    box-shadow: 0 20px 50px rgba(99,102,241,0.25);
+}
+
+/* ===============================
+   CARD TOP
+================================= */
 
 .card-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 .card-top h3 {
     font-size: 18px;
     font-weight: 600;
     margin: 0;
-    color: var(--text-main);
 }
 
 .download-count {
     font-size: 12px;
     background: var(--bg-secondary);
-  color: var(--text-muted);
-    padding: 5px 10px;
-    border-radius: 15px;
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 20px;
 }
 
-
 /* ===============================
-   BUTTON ROW
+   ACTION ROW
 ================================= */
 
 .action-row {
     display: flex;
-    gap: 10px;
-    align-items: center;
+    gap: 12px;
 }
 
 .action-btn {
     flex: 1;
-    padding: 10px;
-    border-radius: 25px;
+    padding: 11px;
+    border-radius: 30px;
     border: none;
     font-size: 14px;
     cursor: pointer;
-    transition: 0.3s ease;
-    font-weight: 500;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 /* Preview */
 
 .preview-btn {
-    background: var(--btn-light);
-  color: var(--text-main);
+    background: var(--bg-secondary);
+    color: var(--text-main);
 }
 
 .preview-btn:hover {
-    background: #c7d2fe;
+    transform: scale(1.05);
 }
 
 /* Download */
 
 .download-btn {
-    background: linear-gradient(90deg,#8B5CF6,#A78BFA);
+    background: linear-gradient(135deg,#6366F1,#8B5CF6);
     color: white;
 }
 
 .download-btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 8px 25px rgba(99,102,241,0.35);
 }
 
 /* Save */
 
 .save-btn {
-    max-width: 110px;
-    background: var(--btn-muted);
+    max-width: 120px;
+    background: var(--bg-secondary);
     color: var(--text-main);
 }
 
 .save-btn.saved {
-    background: linear-gradient(90deg,#ff4d6d,#ff758f);
+    background: linear-gradient(135deg,#ff4d6d,#ff758f);
     color: white;
 }
 
@@ -194,59 +211,13 @@
     transform: scale(1.05);
 }
 
-
-/* States */
+/* ===============================
+   STATES
+================================= */
 
 .loading,
 .no-data {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--text-muted);
-}
-
-
-/* ===============================
-   MOBILE RESPONSIVE
-================================= */
-
-@media (max-width: 768px) {
-
-    .worksheet-container {
-        padding: 20px 15px;
-    }
-
-    /* Header vertical */
-    .worksheet-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .worksheet-header h2 {
-        font-size: 22px;
-    }
-
-    /* Single column grid */
-    .worksheet-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    /* Card padding reduce */
-    .worksheet-card {
-        padding: 18px;
-    }
-
-    /* Buttons stack */
-    .action-row {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .action-btn {
-        width: 100%;
-    }
-
-    .save-btn {
-        max-width: 100%;
-    }
+    padding: 20px 0;
 }

@@ -1,15 +1,23 @@
 import React from "react";
+import { FiClock } from "react-icons/fi";
 import "../styles/Projects.css";
 
-export const Projects = () => {
+const Projects = () => {
   return (
-    <div className="projects-coming">
-      <div className="projects-box">
-        <h1 className="projects-title">🚀 Coming Soon</h1>
-        <p className="projects-subtitle">
-          Exciting Projects are on the way!
+    <div className="projects-page">
+
+      <div className="projects-card">
+        <FiClock className="projects-icon" />
+
+        <h1>Projects Coming Soon</h1>
+
+        <p>
+          We're building something exciting.
+          Stay tuned for powerful project features!
         </p>
+
       </div>
+
     </div>
   );
 };

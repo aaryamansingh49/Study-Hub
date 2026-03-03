@@ -1,68 +1,100 @@
-/* ======================
-   SIDEBAR
-====================== */
-
+/* =========================
+   SIDEBAR BASE
+========================= */
 
 .sidebar {
-    will-change: transform;
-    width: 220px;
+    width: 240px;
     min-height: 100vh;
-    background: linear-gradient(180deg,#8B5CF6,#6D28D9);
-    color: white;
-    padding: 25px;
-    border-radius: 0 20px 20px 0;
-    transition: transform 0.3s ease;
+    padding: 30px 20px;
+    transition: all 0.3s ease;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border-color);
 }
 
-/* Logo */
+/* Dark mode premium gradient */
+body.dark .sidebar {
+    background: linear-gradient(
+        180deg,
+        #0f172a 0%,
+        #1e293b 100%
+    );
+}
+
+/* =========================
+   LOGO
+========================= */
+
 .logo {
-    margin-bottom: 40px;
+    margin-bottom: 45px;
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
-/* List */
+/* =========================
+   LIST
+========================= */
+
 .sidebar ul {
     list-style: none;
     padding: 0;
-}
-
-.sidebar a {
-    text-decoration: none !important;
-    color: white;
+    margin: 0;
 }
 
 .sidebar li {
-    margin: 18px 0;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 10px;
-    transition: 0.3s;
+    margin-bottom: 15px;
 }
 
-.sidebar li:hover,
-.sidebar .active {
-    background: rgba(255,255,255,0.2);
+/* =========================
+   LINK STYLE
+========================= */
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-/* ======================
-   MOBILE SIDEBAR
-====================== */
+/* Hover */
+.sidebar a:hover {
+    background: var(--bg-secondary);
+    transform: translateX(5px);
+}
+
+/* Active link */
+.sidebar a.active {
+    background: linear-gradient(135deg,#6366F1,#8B5CF6);
+    color: white;
+    box-shadow: 0 8px 20px rgba(99,102,241,0.3);
+}
+
+/* Icon */
+.icon {
+    font-size: 18px;
+}
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 768px) {
 
     .sidebar {
         position: fixed;
+        left: -100%;
         top: 0;
-        left: 0;
-        width: 220px;
-        height: 100vh;
-        transform: translateX(-100%);
+        height: 100%;
         z-index: 1000;
         border-radius: 0 20px 20px 0;
     }
 
     .sidebar.active {
-        transform: translateX(0);
+        left: 0;
     }
 }

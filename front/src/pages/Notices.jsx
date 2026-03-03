@@ -1,15 +1,23 @@
 import React from "react";
+import { FiBell } from "react-icons/fi";
 import "../styles/Notices.css";
 
-export const Notices = () => {
+const Notices = () => {
   return (
-    <div className="notices-coming">
-      <div className="notices-box">
-        <h1 className="notices-title">📢 Coming Soon</h1>
-        <p className="notices-subtitle">
-          Important Notices will be available here shortly.
+    <div className="notices-page">
+
+      <div className="notices-card">
+        <FiBell className="notices-icon" />
+
+        <h1>Notices Coming Soon</h1>
+
+        <p>
+          Important announcements and updates will appear here.
+          Stay tuned for the latest information.
         </p>
+
       </div>
+
     </div>
   );
 };

@@ -1,23 +1,60 @@
-
+/* =========================
+   ROOT LAYOUT
+========================= */
 
 .layout {
     display: flex;
+    width: 100vw;
     height: 100vh;
+    overflow: hidden;
+    background: var(--bg-main);
+    transition: background 0.3s ease;
 }
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+/* =========================
+   MAIN AREA
+========================= */
 
 .main-area {
     flex: 1;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    height: 70px;
+    flex-shrink: 0;
+}
+
+/* =========================
+   CONTENT AREA
+========================= */
 
 .content-wrapper {
     flex: 1;
+    overflow-y: auto;
     padding: 40px 32px;
     background: var(--bg-main);
+    transition: background 0.3s ease;
 }
 
-/* Cards Global */
+/* =========================
+   GLOBAL CARD STYLE
+========================= */
 
 .card,
 .course-card,
@@ -27,55 +64,47 @@
 .dashboard-section {
     background: var(--bg-card);
     color: var(--text-main);
+    border-radius: 16px;
+    transition: all 0.3s ease;
 }
 
+/* =========================
+   SCROLLBAR (Premium Look)
+========================= */
 
-
-
-.layout {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
+.content-wrapper::-webkit-scrollbar {
+    width: 8px;
 }
 
-/* Sidebar fixed width */
-.sidebar {
-    width: 250px;
-    flex-shrink: 0;
+.content-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
 }
 
-/* Main area takes remaining space */
-.main-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;   /* 🔥 prevent horizontal overflow */
+body.dark .content-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
 }
 
-/* Topbar */
-.topbar {
-    height: 70px;
-    flex-shrink: 0;
-}
+/* =========================
+   RESPONSIVE
+========================= */
 
-/* Content */
-.content-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    padding: 40px 32px;
-}
-
-/* Responsive Layout */
 @media (max-width: 768px) {
 
-    .cards {
-        flex-direction: column;
+    .content-wrapper {
+        padding: 20px 15px;
     }
 
-    .course-container {
-        justify-content: center;
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        height: 100%;
+        z-index: 1000;
+        transition: 0.3s ease;
     }
-    .content-wrapper {
-        padding: 0 15px;
+
+    .sidebar.active {
+        left: 0;
     }
 }

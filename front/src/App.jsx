@@ -1,7 +1,12 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
-// import Layout from "./Layout";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
@@ -14,10 +19,13 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import WorksheetDetails from "./pages/WorksheetDetails";
 import SavedCollection from "./pages/SavedCollection";
 
-function App() {
+/* 🔥 Animated Router Wrapper */
+function AnimatedRoutes() {
+  const location = useLocation();
+
   return (
-    <BrowserRouter>
-      <Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
 
         {/* Public Layout */}
         <Route path="/" element={<Layout />}>
@@ -28,11 +36,9 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="notices" element={<Notices />} />
           <Route path="saved" element={<SavedCollection />} />
-          
-          
         </Route>
 
-        {/* Admin */}
+        {/* Admin Routes */}
         <Route path="/admin-login" element={<AdminLogin />} />
 
         <Route
@@ -45,8 +51,14 @@ function App() {
         />
 
       </Routes>
-    </BrowserRouter>
+    </AnimatePresence>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AnimatedRoutes />
+    </BrowserRouter>
+  );
+}

@@ -1,25 +1,109 @@
+/* =========================
+   THEME VARIABLES
+========================= */
+
 :root {
-    --bg-main: #F5F7FB;
-    --bg-card: #ffffff;
-    --bg-secondary: #f1f5f9;
-    --text-main: #1E293B;
-    --text-muted: #64748B;
-    --btn-light: #e0e7ff;
-    --btn-muted: #f1f5f9;
+  --bg-main: #F5F7FB;
+  --bg-card: #ffffff;
+  --bg-secondary: #f1f5f9;
+
+  --text-main: #1E293B;
+  --text-muted: #64748B;
+
+  --btn-light: #e0e7ff;
+  --btn-muted: #f1f5f9;
+
+  --border-color: #e2e8f0;
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+body.dark {
+  --bg-main: #0F172A;
+  --bg-card: #1E293B;
+  --bg-secondary: #2A2A40;
+
+  --text-main: #ffffff;
+  --text-muted: #cbd5e1;
+
+  --btn-light: #2A2A40;
+  --btn-muted: #3a3a55;
+
+  --border-color: rgba(255,255,255,0.08);
+  --shadow-soft: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* =========================
+   GLOBAL BODY
+========================= */
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: "Inter", sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* =========================
+   GLOBAL CARD FEEL
+========================= */
+
+.card,
+.course-card,
+.quick-card,
+.recent-card,
+.worksheet-card,
+.dashboard-section {
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
+}
+
+/* =========================
+   DARK MODE GLOW EFFECT (Premium Look)
+========================= */
+
+body.dark .card,
+body.dark .course-card,
+body.dark .quick-card,
+body.dark .recent-card,
+body.dark .worksheet-card {
+  backdrop-filter: blur(10px);
+  background: linear-gradient(
+    145deg,
+    rgba(30,41,59,0.9),
+    rgba(15,23,42,0.95)
+  );
+}
+
+
+/* =========================
+   SMOOTH TOAST ANIMATION
+========================= */
+
+.smooth-toast {
+  animation: toastSlideDown 0.35s ease-out,
+             toastFadeIn 0.35s ease-out;
+}
+
+/* Entry */
+@keyframes toastSlideDown {
+  from {
+    transform: translateY(-25px) scale(0.95);
+    opacity: 0;
   }
-  
-  body.dark {
-    --bg-main: #0F172A;
-    --bg-card: #1E293B;
-    --bg-secondary: #2A2A40;
-    --text-main: #ffffff;
-    --text-muted: #cbd5e1;
-    --btn-light: #2A2A40;
-    --btn-muted: #3a3a55;
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
-  
-  body {
-    background: var(--bg-main);
-    color: var(--text-main);
-    transition: 0.3s ease;
-  }
+}
+
+/* Exit (handled automatically by library fade) */
+@keyframes toastFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

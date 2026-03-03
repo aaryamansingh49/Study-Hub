@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { toggleSaved, isSaved } from "../utils/savedManager";
 import "../styles/Worksheets.css";
@@ -29,6 +30,7 @@ const WorksheetDetails = () => {
   };
 
   const handleDownload = async (worksheet) => {
+    toast.success("Download started");
     await axios.put(
       `http://localhost:5000/api/worksheets/${worksheet._id}/download`
     );
@@ -49,17 +51,31 @@ const WorksheetDetails = () => {
   };
 
   const handleSave = (id) => {
+    const alreadySaved = isSaved("worksheets", id);
+  
     toggleSaved("worksheets", id);
-    setWorksheets([...worksheets]); // refresh without reload
+    setWorksheets([...worksheets]);
+  
+    if (alreadySaved) {
+      toast("Removed from saved");
+    } else {
+      toast.success("Added to saved ❤️");
+    }
   };
 
   return (
     <div className="worksheet-container">
 
-      <div className="worksheet-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>←</button>
-        <h2>Worksheet {number}</h2>
-      </div>
+<div className="worksheet-header">
+  <button className="back-btn" onClick={() => navigate(-1)}>←</button>
+
+  <div className="worksheet-title-group">
+    <h2>Worksheet {number}</h2>
+    <p className="worksheet-tagline">
+    Different variants. Same concept. Your choice.
+    </p>
+  </div>
+</div>
 
       {loading ? (
         <p className="loading">Loading...</p>

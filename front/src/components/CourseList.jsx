@@ -1,6 +1,7 @@
 import "../styles/CourseList.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiSearch } from "react-icons/fi";
 
 function CourseList({ courses }) {
   const [search, setSearch] = useState("");
@@ -17,33 +18,40 @@ function CourseList({ courses }) {
 
   return (
     <div className="subject-section">
-      <input
-        type="text"
-        className="subject-search"
-        placeholder="Search subject..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
 
+      {/* Search Bar */}
+      <div className="subject-search-wrapper">
+        <FiSearch className="subject-search-icon" />
+        <input
+          type="text"
+          placeholder="Search subject..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      {/* Courses Grid */}
       <div className="course-container">
         {filteredCourses.length > 0 ? (
           filteredCourses.map((course, index) => (
             <div className="course-card" key={course._id || index}>
+
               <div className="card-top">
                 <h3>{course.subject}</h3>
               </div>
 
               <div className="card-info">
-                <p><strong>Program:</strong> {course.program}</p>
-                <p><strong>Semester:</strong> {course.semester}</p>
+                <p><span>Program:</span> {course.program}</p>
+                <p><span>Semester:</span> {course.semester}</p>
               </div>
 
               <button
                 className="view-btn"
                 onClick={() => handleView(course)}
               >
-                View Worksheets
+                View Worksheets →
               </button>
+
             </div>
           ))
         ) : (
