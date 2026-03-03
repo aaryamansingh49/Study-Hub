@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import CourseList from "../components/CourseList";
 import "../styles/Courses.css";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
-  const [program, setProgram] = useState("");
-  const [semester, setSemester] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const program = searchParams.get("program") || "";
+  const semester = searchParams.get("semester") || "";
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,6 +31,20 @@ function Courses() {
     }
   };
 
+  const handleProgramChange = (e) => {
+    setSearchParams({
+      program: e.target.value,
+      semester,
+    });
+  };
+
+  const handleSemesterChange = (e) => {
+    setSearchParams({
+      program,
+      semester: e.target.value,
+    });
+  };
+
   return (
     <div className="courses-page">
 
@@ -38,7 +56,8 @@ function Courses() {
       <div className="filters">
         <select
           className="filter-select"
-          onChange={(e) => setProgram(e.target.value)}
+          value={program}
+          onChange={handleProgramChange}
         >
           <option value="">All Programs</option>
           <option value="MCA">MCA</option>
@@ -47,7 +66,8 @@ function Courses() {
 
         <select
           className="filter-select"
-          onChange={(e) => setSemester(e.target.value)}
+          value={semester}
+          onChange={handleSemesterChange}
         >
           <option value="">All Semesters</option>
           <option value="1">Semester 1</option>

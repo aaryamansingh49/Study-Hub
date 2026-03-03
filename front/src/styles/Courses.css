@@ -66,6 +66,17 @@
 /* Dark glass effect */
 
 body.dark .filter-select {
+    background: #1e293b !important;
+    color: #ffffff !important;
+}
+
+/* Open dropdown options visible */
+body.dark .filter-select option {
+    background: #1e293b !important;   /* white dropdown */
+    color: #ffffff  !important;        /* black text */
+}
+
+body.dark .filter-select {
     background: linear-gradient(
         145deg,
         rgba(30,41,59,0.9),
