@@ -50,7 +50,7 @@ const Worksheets = () => {
               </div>
 
               <button
-                className="download-btn"
+                className="worksheet-view-btn"
                 onClick={() =>
                   navigate(`/worksheets/${courseId}/${number}`)
                 }

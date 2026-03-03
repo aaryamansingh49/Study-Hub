@@ -24,8 +24,8 @@ function QuickAccess() {
       icon: <HiOutlineFolderOpen /> 
     },
     { 
-      title: "Notices", 
-      subtitle: "Check latest notices",
+      title: "Question Paper", 
+      subtitle: "Check previous year question papers",
       path: "/notices", 
       icon: <HiOutlineBell /> 
     }

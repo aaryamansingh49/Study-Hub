@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "../styles/admin.css";
-
+import "../styles/AdminLayout.css";
+//  
 const AdminLayout = ({ children }) => {
   return (
     <div className="admin-container">
@@ -8,7 +8,7 @@ const AdminLayout = ({ children }) => {
         <h2>Worksheet Admin</h2>
         <p>Upload Panel</p>
       </div>
-      <div className="content">
+      <div className="admin-content">
         {children}
       </div>
     </div>

@@ -9,11 +9,10 @@ const Notices = () => {
       <div className="notices-card">
         <FiBell className="notices-icon" />
 
-        <h1>Notices Coming Soon</h1>
+        <h1> Coming Soon</h1>
 
         <p>
-          Important announcements and updates will appear here.
-          Stay tuned for the latest information.
+          Stay tuned.
         </p>
 
       </div>

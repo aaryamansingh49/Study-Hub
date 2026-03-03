@@ -184,9 +184,18 @@ body.dark .worksheet-card:hover {
 
 /* Download */
 
-.download-btn {
-    background: linear-gradient(135deg,#6366F1,#8B5CF6);
+.worksheet-view-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 11px;
+    border-radius: 30px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
     color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
 .download-btn:hover {

@@ -9,7 +9,7 @@ const Projects = () => {
       <div className="projects-card">
         <FiClock className="projects-icon" />
 
-        <h1>Projects Coming Soon</h1>
+        <h1>Coming Soon</h1>
 
         <p>
           We're building something exciting.

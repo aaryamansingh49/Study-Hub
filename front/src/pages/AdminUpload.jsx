@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import API from "../services/api";
 import AdminLayout from "../components/AdminLayout";
+import "../styles/AdminUpload.css";
 
 const AdminUpload = () => {
 
@@ -48,48 +49,53 @@ const AdminUpload = () => {
 
   return (
     <AdminLayout>
-      <h2>Upload Worksheet</h2>
-
-      <form onSubmit={handleSubmit}>
-
-        <select
-          value={selectedCourse}
-          onChange={(e) => setSelectedCourse(e.target.value)}
-          required
-        >
-          <option value="">Select Course</option>
-          {courses.map((course) => (
-            <option key={course._id} value={course._id}>
-              {course.program} - Sem {course.semester} - {course.subject}
-            </option>
-          ))}
-        </select>
-
-        <input
-          type="number"
-          placeholder="Worksheet Number (1,2,3...)"
-          value={worksheetNumber}
-          onChange={(e) => setWorksheetNumber(e.target.value)}
-          required
-        />
-
-        <input
-          type="text"
-          placeholder="Title (Set A / Practice Set 1)"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={(e) => setFile(e.target.files[0])}
-          required
-        />
-
-        <button type="submit">Upload</button>
-      </form>
+      <div className="admin-upload-page">
+        <h2 className="upload-title">Upload Worksheet</h2>
+  
+        <form className="upload-form" onSubmit={handleSubmit}>
+  
+          <select
+            value={selectedCourse}
+            onChange={(e) => setSelectedCourse(e.target.value)}
+            required
+          >
+            <option value="">Select Course</option>
+            {courses.map((course) => (
+              <option key={course._id} value={course._id}>
+                {course.program} - Sem {course.semester} - {course.subject}
+              </option>
+            ))}
+          </select>
+  
+          <input
+            type="number"
+            placeholder="Worksheet Number (1,2,3...)"
+            value={worksheetNumber}
+            onChange={(e) => setWorksheetNumber(e.target.value)}
+            required
+          />
+  
+          <input
+            type="text"
+            placeholder="Title (Set A / Practice Set 1)"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+  
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setFile(e.target.files[0])}
+            required
+          />
+  
+          <button type="submit" className="upload-btn">
+            Upload Worksheet
+          </button>
+  
+        </form>
+      </div>
     </AdminLayout>
   );
 };
