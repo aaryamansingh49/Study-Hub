@@ -8,52 +8,73 @@ const AdminUpload = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState("");
   const [worksheetNumber, setWorksheetNumber] = useState("");
-  const [title, setTitle] = useState("");
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
     fetchCourses();
   }, []);
 
   const fetchCourses = async () => {
-    const res = await API.get("/courses");
-    setCourses(res.data);
+    try {
+      const res = await API.get("/courses");
+      setCourses(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedCourse || !worksheetNumber || files.length === 0) {
+      alert("All fields are required");
+      return;
+    }
 
     const token = localStorage.getItem("adminToken");
 
     const formData = new FormData();
     formData.append("courseId", selectedCourse);
     formData.append("worksheetNumber", worksheetNumber);
-    formData.append("title", title);
-    formData.append("file", file);
+
+    // 🔥 Multiple Files Append
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
 
     try {
       await API.post("/worksheets/upload", formData, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
         }
       });
 
-      alert("Worksheet Uploaded Successfully!");
-      setTitle("");
-      setFile(null);
+      alert("Worksheet Folder Uploaded Successfully!");
+
+      // Reset form
+      setWorksheetNumber("");
+      setFiles([]);
+      document.getElementById("fileInput").value = "";
 
     } catch (error) {
       alert("Upload Failed");
+      console.log(error);
     }
   };
 
   return (
     <AdminLayout>
       <div className="admin-upload-page">
-        <h2 className="upload-title">Upload Worksheet</h2>
-  
+        <h2 className="upload-title">Upload Worksheet Folder</h2>
+
         <form className="upload-form" onSubmit={handleSubmit}>
-  
+
+          {/* Course Select */}
           <select
             value={selectedCourse}
             onChange={(e) => setSelectedCourse(e.target.value)}
@@ -66,7 +87,8 @@ const AdminUpload = () => {
               </option>
             ))}
           </select>
-  
+
+          {/* Worksheet Number */}
           <input
             type="number"
             placeholder="Worksheet Number (1,2,3...)"
@@ -74,26 +96,22 @@ const AdminUpload = () => {
             onChange={(e) => setWorksheetNumber(e.target.value)}
             required
           />
-  
+
+          {/* 🔥 Folder / Multiple Upload */}
           <input
-            type="text"
-            placeholder="Title (Set A / Practice Set 1)"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-  
-          <input
+            id="fileInput"
             type="file"
+            multiple
+            webkitdirectory="true"
             accept="application/pdf"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleFileChange}
             required
           />
-  
+
           <button type="submit" className="upload-btn">
-            Upload Worksheet
+            Upload Folder
           </button>
-  
+
         </form>
       </div>
     </AdminLayout>

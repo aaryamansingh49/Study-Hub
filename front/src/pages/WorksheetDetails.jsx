@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { toggleSaved, isSaved } from "../utils/savedManager";
-import "../styles/Worksheets.css";
+import "../styles/WorksheetDetails.css";
 
 const WorksheetDetails = () => {
   const { courseId, number } = useParams();
@@ -31,6 +31,7 @@ const WorksheetDetails = () => {
 
   const handleDownload = async (worksheet) => {
     toast.success("Download started");
+
     await axios.put(
       `http://localhost:5000/api/worksheets/${worksheet._id}/download`
     );
@@ -52,10 +53,10 @@ const WorksheetDetails = () => {
 
   const handleSave = (id) => {
     const alreadySaved = isSaved("worksheets", id);
-  
+
     toggleSaved("worksheets", id);
     setWorksheets([...worksheets]);
-  
+
     if (alreadySaved) {
       toast("Removed from saved");
     } else {
@@ -64,51 +65,56 @@ const WorksheetDetails = () => {
   };
 
   return (
-    <div className="worksheet-container">
+    <div className="wsd-container">
 
-<div className="worksheet-header">
-  <button className="back-btn" onClick={() => navigate(-1)}>←</button>
+      <div className="wsd-header">
+        <button
+          className="wsd-back-btn"
+          onClick={() => navigate(-1)}
+        >
+          ←
+        </button>
 
-  <div className="worksheet-title-group">
-    <h2>Worksheet {number}</h2>
-    <p className="worksheet-tagline">
-    Different variants. Same concept. Your choice.
-    </p>
-  </div>
-</div>
+        <div className="worksheet-title-group">
+          <h2>Worksheet {number}</h2>
+          <p className="worksheet-tagline">
+            Different variants. Same concept. Your choice.
+          </p>
+        </div>
+      </div>
 
       {loading ? (
         <p className="loading">Loading...</p>
       ) : worksheets.length > 0 ? (
-        <div className="worksheet-grid">
+        <div className="wsd-grid">
           {worksheets.map((ws) => (
-            <div key={ws._id} className="worksheet-card">
+            <div key={ws._id} className="wsd-card">
 
-              <div className="card-top">
+              <div className="wsd-card-top">
                 <h3>{ws.title}</h3>
                 <span className="download-count">
                   {ws.downloads} Downloads
                 </span>
               </div>
 
-              <div className="action-row">
+              <div className="wsd-action-row">
 
                 <button
-                  className="action-btn preview-btn"
+                  className="wsd-btn wsd-preview"
                   onClick={() => handlePreview(ws)}
                 >
                   Preview
                 </button>
 
                 <button
-                  className="action-btn download-btn"
+                  className="wsd-btn wsd-download"
                   onClick={() => handleDownload(ws)}
                 >
                   Download
                 </button>
 
                 <button
-                  className={`action-btn save-btn ${
+                  className={`wsd-btn wsd-save ${
                     isSaved("worksheets", ws._id) ? "saved" : ""
                   }`}
                   onClick={() => handleSave(ws._id)}
@@ -126,6 +132,7 @@ const WorksheetDetails = () => {
       ) : (
         <p className="no-data">No sets found</p>
       )}
+
     </div>
   );
 };

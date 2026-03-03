@@ -1,50 +1,35 @@
-/* ===============================
-   PAGE CONTAINER
-================================= */
+/* CONTAINER */
 
-.worksheet-container {
-    padding: 40px 0;
+.worksheets-container {
+    padding: 40px 20px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 🔥 left aligned */
     gap: 30px;
 }
 
-/* Limit content width */
-.worksheet-header,
-.worksheet-grid {
+.worksheets-header,
+.worksheets-grid {
     width: 100%;
     max-width: 1100px;
+    margin: 0 auto;
 }
 
-/* ===============================
-   HEADER
-================================= */
+/* HEADER */
 
-.worksheet-header {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.worksheets-header {
+    width: 100%;
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
 }
 
-/* tagline */
-.worksheet-title-group {
+.header-text {
     display: flex;
     flex-direction: column;
-}
-
-.worksheet-tagline {
-    margin-top: 6px;
-    font-size: 14px;
-    color: var(--text-muted);
-    font-weight: 400;
 }
 
 .header-text h2 {
@@ -59,7 +44,7 @@
     color: var(--text-muted);
 }
 
-/* Modern Back Button */
+/* BACK BUTTON */
 
 .back-btn {
     width: 40px;
@@ -67,35 +52,24 @@
     border-radius: 12px;
     border: 1px solid var(--border-color);
     background: var(--bg-card);
-    color: var(--text-main);
     font-size: 18px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .back-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* Dark mode back glow */
-body.dark .back-btn:hover {
-    box-shadow: 0 8px 25px rgba(99,102,241,0.25);
-}
+/* GRID */
 
-/* ===============================
-   GRID
-================================= */
-
-.worksheet-grid {
+.worksheets-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
 
-/* ===============================
-   CARD
-================================= */
+/* CARD */
 
 .worksheet-card {
     background: var(--bg-card);
@@ -103,130 +77,61 @@ body.dark .back-btn:hover {
     padding: 28px;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-soft);
-    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.worksheet-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
-
-/* Dark glass effect */
-body.dark .worksheet-card {
-    background: linear-gradient(
-        145deg,
-        rgba(30,41,59,0.9),
-        rgba(15,23,42,0.95)
-    );
-}
-
-body.dark .worksheet-card:hover {
-    box-shadow: 0 20px 50px rgba(99,102,241,0.25);
-}
-
-/* ===============================
-   CARD TOP
-================================= */
-
-.card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .card-top h3 {
-    font-size: 18px;
-    font-weight: 600;
     margin: 0;
+    font-size: 18px;
 }
 
-.download-count {
-    font-size: 12px;
-    background: var(--bg-secondary);
-    color: var(--text-muted);
-    padding: 6px 12px;
-    border-radius: 20px;
-}
+/* BUTTON */
 
-/* ===============================
-   ACTION ROW
-================================= */
-
-.action-row {
-    display: flex;
-    gap: 12px;
-}
-
-.action-btn {
-    flex: 1;
-    padding: 11px;
+.ws-view-btn {
+    padding: 12px;
     border-radius: 30px;
     border: none;
     font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-/* Preview */
-
-.preview-btn {
-    background: var(--bg-secondary);
-    color: var(--text-main);
-}
-
-.preview-btn:hover {
-    transform: scale(1.05);
-}
-
-/* Download */
-
-.worksheet-view-btn {
-    margin-top: 20px;
-    width: 100%;
-    padding: 11px;
-    border-radius: 30px;
-    border: none;
-    font-size: 13px;
-    font-weight: 600;
     background: linear-gradient(135deg, #6366F1, #8B5CF6);
     color: white;
-    cursor: pointer;
     transition: 0.3s ease;
 }
 
-.download-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(99,102,241,0.35);
+.ws-view-btn:hover {
+    transform: translateY(-2px);
 }
 
-/* Save */
-
-.save-btn {
-    max-width: 120px;
-    background: var(--bg-secondary);
-    color: var(--text-main);
-}
-
-.save-btn.saved {
-    background: linear-gradient(135deg,#ff4d6d,#ff758f);
-    color: white;
-}
-
-.save-btn:hover {
-    transform: scale(1.05);
-}
-
-/* ===============================
-   STATES
-================================= */
+/* STATES */
 
 .loading,
 .no-data {
-    font-size: 15px;
+    text-align: center;
     color: var(--text-muted);
-    padding: 20px 0;
+}
+
+body.dark .back-btn {
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+    .worksheets-container {
+        padding: 20px 16px;
+    }
+
+    .worksheets-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .worksheet-card {
+        padding: 20px;
+    }
 }

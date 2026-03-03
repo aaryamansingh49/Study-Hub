@@ -31,7 +31,7 @@ router.put("/:id/download", incrementDownload);
 router.post(
   "/upload",
   protectAdmin,
-  upload.single("file"),
+  upload.array("files"),
   uploadWorksheet
 );
 

@@ -28,8 +28,8 @@ const Worksheets = () => {
   };
 
   return (
-    <div className="worksheet-container">
-      <div className="worksheet-header">
+    <div className="worksheets-container">
+      <div className="worksheets-header">
         <div className="header-left">
           <button className="back-btn" onClick={() => navigate(-1)}>←</button>
           <div className="header-text">
@@ -42,7 +42,7 @@ const Worksheets = () => {
       {loading ? (
         <div className="loading">Loading...</div>
       ) : groups.length > 0 ? (
-        <div className="worksheet-grid">
+        <div className="worksheets-grid">
           {groups.map((number) => (
             <div key={number} className="worksheet-card">
               <div className="card-top">
@@ -50,13 +50,13 @@ const Worksheets = () => {
               </div>
 
               <button
-                className="worksheet-view-btn"
-                onClick={() =>
-                  navigate(`/worksheets/${courseId}/${number}`)
-                }
-              >
-                View All Worksheets
-              </button>
+  className="ws-view-btn"
+  onClick={() =>
+    navigate(`/worksheets/${courseId}/${number}`)
+  }
+>
+  View All Worksheets
+</button>
             </div>
           ))}
         </div>

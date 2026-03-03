@@ -83,16 +83,39 @@
 
 @media (max-width: 768px) {
 
-    .footer-container {
-        flex-direction: column;
-        gap: 40px;
-    }
-
     .footer {
         padding-top: 40px;
+        text-align: center;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        padding: 0 20px;
+    }
+
+    .footer-brand {
+        text-align: center;
     }
 
     .footer-brand p {
         max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .footer-links {
+        text-align: center;
+    }
+
+    /* IMPORTANT FIX */
+    .footer-links a {
+        display: block;        /* column layout */
+        margin: 8px 0;         /* vertical spacing */
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding: 18px;
     }
 }

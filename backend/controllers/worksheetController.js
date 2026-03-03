@@ -150,29 +150,43 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
 
 
 //Upload Worksheet
+// Upload Worksheet Folder (Auto Set A, B, C...)
 exports.uploadWorksheet = async (req, res) => {
   try {
-    const { courseId, worksheetNumber, title } = req.body;
+    const { courseId, worksheetNumber } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ message: "PDF required" });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        message: "At least one PDF required"
+      });
     }
 
-    const fileUrl = `uploads/${req.file.filename}`;
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    const worksheet = await Worksheet.create({
-      course: courseId,
-      worksheetNumber,
-      title,
-      fileUrl
-    });
+    // Sort files alphabetically (optional but recommended)
+    const sortedFiles = req.files.sort((a, b) =>
+      a.originalname.localeCompare(b.originalname)
+    );
+
+    for (let i = 0; i < sortedFiles.length; i++) {
+      const file = sortedFiles[i];
+
+      await Worksheet.create({
+        course: courseId,
+        worksheetNumber,
+        title: `Set ${alphabet[i]}`,   // 🔥 Auto title
+        fileUrl: `uploads/${file.filename}`
+      });
+    }
 
     res.status(201).json({
-      message: "Worksheet Uploaded",
-      worksheet
+      message: "Worksheet Folder Uploaded Successfully"
     });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: "Error uploading worksheet folder",
+      error: error.message
+    });
   }
 };

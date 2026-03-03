@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-
+import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
@@ -26,7 +26,9 @@ function AnimatedRoutes() {
   const location = useLocation();
 
   return (
+    
     <AnimatePresence mode="wait">
+     
       <Routes location={location} key={location.pathname}>
 
         {/* Public Layout */}
@@ -63,6 +65,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
+     <ScrollToTop />
       <AnimatedRoutes />
     </BrowserRouter>
   );
