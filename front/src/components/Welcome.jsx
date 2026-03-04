@@ -3,29 +3,35 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Welcome.css";
 
 function Welcome() {
+
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("googleUser"));
+
   return (
     <div className="welcome">
 
       <div className="welcome-content">
-        {/* <span className="welcome-badge">Dashboard</span> */}
 
         <h1>
-          Welcome!
+          {user ? `Welcome ${user.name} !` : "Welcome!"}
         </h1>
 
         <p>
-        Access worksheets and previous year papers quickly and efficiently.
+          Access worksheets and previous year papers quickly and efficiently.
         </p>
 
         <div className="welcome-actions">
-  <button
-    className="welcome-primary-btn"
-    onClick={() => navigate("/courses")}
-  >
-    Explore Worksheets
-  </button>
-</div>
+
+          <button
+            className="welcome-primary-btn"
+            onClick={() => navigate("/courses")}
+          >
+            Explore Worksheets
+          </button>
+
+        </div>
+
       </div>
 
       <div className="welcome-glow"></div>

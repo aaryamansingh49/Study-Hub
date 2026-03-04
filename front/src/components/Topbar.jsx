@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { FiMenu, FiSun, FiMoon, FiSearch } from "react-icons/fi";
-// import logo from "../assets/workshit-logo.png";
+import { FiMenu, FiSun, FiMoon, FiSearch, FiLogOut } from "react-icons/fi";
+import { signOut } from "firebase/auth";
+import { auth } from "../services/firebase";
+import GoogleLogin from "./GoogleLogin";
 import "../styles/Topbar.css";
+import { useNavigate } from "react-router-dom";
+
 
 function Topbar({ setSidebarOpen }) {
 
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
+  );
+
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("googleUser"))
   );
 
   useEffect(() => {
@@ -18,6 +27,25 @@ function Topbar({ setSidebarOpen }) {
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);
+
+  
+
+
+
+  // LOGOUT
+  const handleLogout = async () => {
+
+    await signOut(auth);
+  
+    localStorage.removeItem("googleUser");
+  
+    setUser(null);
+  
+    navigate("/");
+  
+  };
+
+
 
   return (
     <div className="topbar">
@@ -42,6 +70,7 @@ function Topbar({ setSidebarOpen }) {
 
       </div>
 
+
       {/* RIGHT */}
       <div className="topbar-right">
 
@@ -51,6 +80,31 @@ function Topbar({ setSidebarOpen }) {
         >
           {darkMode ? <FiSun /> : <FiMoon />}
         </button>
+
+
+        {/* GOOGLE LOGIN */}
+        {!user ? (
+
+          <GoogleLogin/>
+
+        ) : (
+
+          <div className="user-profile">
+
+            <img src={user.photo} alt="user" />
+
+            <span>{user.name}</span>
+
+            <button
+              className="logout-btn"
+              onClick={handleLogout}
+            >
+              <FiLogOut />
+            </button>
+
+          </div>
+
+        )}
 
       </div>
 

@@ -1,40 +1,80 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { getSaved, toggleSaved } from "../utils/savedManager";
 import "../styles/SavedCollection.css";
 
 const SavedCollection = () => {
+
   const [worksheets, setWorksheets] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const user = JSON.parse(localStorage.getItem("googleUser"));
+
   useEffect(() => {
-    fetchSaved();
+    if (user) fetchSaved();
+    else setLoading(false);
   }, []);
 
   const fetchSaved = async () => {
-    const saved = getSaved();
+    try {
 
-    if (saved.worksheets.length > 0) {
       const res = await axios.get(
-        `http://localhost:5000/api/worksheets?ids=${saved.worksheets.join(",")}`
+        `http://localhost:5000/api/saved/user/${user.email}`
       );
-      setWorksheets(res.data);
+
+      const worksheetData = res.data.map((item) => item.worksheet);
+
+      setWorksheets(worksheetData);
+
+    } catch (err) {
+      toast.error("Failed to load saved worksheets");
     }
 
     setLoading(false);
   };
 
-  const removeSaved = (id) => {
-    toggleSaved("worksheets", id);
-    setWorksheets(worksheets.filter((ws) => ws._id !== id));
-  
-    toast("Removed from saved ");
+
+  const removeSaved = async (id) => {
+
+    try {
+
+      await axios.post("http://localhost:5000/api/saved/remove", {
+        email: user.email,
+        worksheetId: id
+      });
+
+      const card = document.getElementById(`saved-${id}`);
+
+      if (card) {
+        card.classList.add("remove-animation");
+
+        setTimeout(() => {
+          setWorksheets((prev) => prev.filter((ws) => ws._id !== id));
+        }, 300);
+      }
+
+      toast("Removed from saved");
+
+    } catch (err) {
+      toast.error("Failed to remove");
+    }
+
   };
+
+
+  if (!user) {
+    return (
+      <div className="saved-container">
+        <p className="saved-empty">Please login to view saved worksheets.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="saved-container">
+
       <div className="saved-header">
+
         <div>
           <h2>Saved Worksheets</h2>
           <p className="saved-subtitle">
@@ -43,19 +83,40 @@ const SavedCollection = () => {
         </div>
 
         <span className="saved-count">{worksheets.length} Saved</span>
+
       </div>
 
+
       {loading ? (
+
         <p className="saved-loading">Loading...</p>
+
       ) : worksheets.length > 0 ? (
+
         <div className="saved-grid">
+
           {worksheets.map((ws) => (
-            <div key={ws._id} className="saved-card">
-              <h3>{ws.title}</h3>
+
+            <div
+              id={`saved-${ws._id}`}
+              key={ws._id}
+              className="saved-card saved-highlight"
+            >
+
+              <div className="saved-top">
+
+                <h3>{ws.title}</h3>
+
+                <span className="saved-badge">❤️ Saved</span>
+
+              </div>
 
               <p className="saved-meta">
-                <strong>Course:</strong> {ws.course?.program} - Sem{" "}
-                {ws.course?.semester} - {ws.course?.subject}
+                <strong>Course:</strong> {ws.course?.program} - Sem {ws.course?.semester} - {ws.course?.code}
+              </p>
+
+              <p className="saved-meta">
+                <strong>Subject:</strong> {ws.course?.subject}
               </p>
 
               <p className="saved-meta">
@@ -65,6 +126,7 @@ const SavedCollection = () => {
               <p className="saved-downloads">{ws.downloads} Downloads</p>
 
               <div className="saved-actions">
+
                 <button
                   onClick={() =>
                     window.open(`http://localhost:5000/${ws.fileUrl}`, "_blank")
@@ -80,13 +142,21 @@ const SavedCollection = () => {
                 >
                   Remove
                 </button>
+
               </div>
+
             </div>
+
           ))}
+
         </div>
+
       ) : (
+
         <p className="saved-empty">No saved worksheets yet.</p>
+
       )}
+
     </div>
   );
 };

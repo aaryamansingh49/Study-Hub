@@ -1,22 +1,10 @@
 /* =========================
    TOPBAR BASE
 ========================= */
-.topbar-logo {
-    display: flex;
-    align-items: center;
-}
 
-.topbar-logo img {
-    height: 38px;
-    width: auto;
-    object-fit: contain;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
 
-.topbar-logo img:hover {
-    transform: scale(1.05);
-}
+
+
 .topbar {
     height: 70px;
     background: var(--bg-card);
@@ -107,6 +95,7 @@ body.dark .topbar {
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-right: 20px;
 }
 
 /* Theme Button */
@@ -136,33 +125,58 @@ body.dark .topbar {
    MOBILE
 ========================= */
 
-@media (max-width: 768px) {
+@media (max-width:768px){
 
-    .topbar {
-        padding: 0 12px;
+    .topbar{
+    height:55px;              /* topbar height chhoti */
+    padding:0 6px;
     }
-
-    .topbar-left {
-        flex: 0 0 auto;   /* 🔥 remove flex expansion */
-        gap: 12px;
+    
+    /* LEFT SIDE */
+    
+    .topbar-left{
+    gap:8px;
     }
-
-    .search-container {
-        width: 160px;   /* fixed width */
-        max-width: unset;
+    
+    
+    /* MENU */
+    
+    .menu-btn{
+    font-size:18px;
+    display:block;
     }
-
-    .topbar-right {
-        flex: 0 0 auto;   /* prevent shrinking */
+    
+    /* SEARCH */
+    
+    .search-container{
+    width:150px;
     }
-
-    .theme-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 2rem;
+    
+    .search-container input{
+    padding:7px 12px 7px 32px;
+    font-size:13px;
     }
-
-    .menu-btn {
-        display: block;
+    
+    .search-icon{
+    font-size:13px;
+    left:10px;
     }
-}
+    
+    /* THEME BUTTON */
+    
+    .theme-btn{
+    width:30px;
+    height:30px;
+    font-size:16px;
+    }
+    
+    /* PROFILE */
+    
+    
+    
+    .topbar-right{
+    gap:8px;
+    margin-right:6px;
+    }
+    
+    }

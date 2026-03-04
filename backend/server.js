@@ -16,6 +16,8 @@ const courseRoutes = require("./routes/courseRoutes");
 const worksheetRoutes = require("./routes/worksheetRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const statsRoutes = require("./routes/statsRoutes");
+const userRoutes = require("./routes/userRoutes");
+const savedRoutes = require("./routes/savedRoutes");
 
 
 
@@ -23,6 +25,8 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/worksheets", worksheetRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/stats", statsRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/saved", savedRoutes);
 
 // Static folder for PDFs
 app.use("/uploads", express.static("uploads"));

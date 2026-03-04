@@ -1,0 +1,153 @@
+.google-login-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: #ffffff;
+  border: 1px solid #d1d5db; /* border thoda darker */
+
+  padding: 6px 10px;
+  border-radius: 6px;
+
+  font-weight: 600;
+  font-size: 15px;
+
+  cursor: pointer;
+  transition: 0.2s;
+
+  /* 👇 visibility improve */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.google-login-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.google-login-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+
+
+body.dark .google-login-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #f1f5f9;
+}
+
+
+/* LOGOUT BUTTON */
+
+.logout-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  
+    background:#f1f5f9;
+    border:1px solid #d1d5db;
+  
+    padding:6px 8px;
+    border-radius:6px;
+  
+    font-size:16px;
+    color:#334155;
+  
+    cursor:pointer;
+    transition:0.25s ease;
+  
+    margin-left:4px;
+  }
+  
+  /* Hover */
+  .logout-btn:hover{
+    background:#ef4444;
+    border-color:#ef4444;
+    color:white;
+    transform:translateY(-1px);
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+  }
+  
+  /* DARK MODE */
+  
+  body.dark .logout-btn{
+    background:#1e293b;
+    border:1px solid #334155;
+    color:#f1f5f9;
+  }
+  
+  body.dark .logout-btn:hover{
+    background:#ef4444;
+    border-color:#ef4444;
+    color:white;
+  }
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.topbar-logo img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.topbar-logo img:hover {
+  transform: scale(1.05);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-profile img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #3b82f6;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .user-profile img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .user-profile span {
+    font-size: 13px;
+  }
+
+  /* LOGOUT */
+
+  .logout-btn {
+    font-size: 15px;
+  }
+
+  /* GOOGLE LOGIN */
+
+  .google-login-btn {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+  .google-login-btn {
+    font-size: 11px;
+  }
+  .google-login-btn img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+  }
+}

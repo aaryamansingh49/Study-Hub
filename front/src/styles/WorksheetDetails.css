@@ -232,6 +232,50 @@ body.dark .no-data {
     color: #94a3b8;
 }
 
+
+/* SAVE BUTTON HOVER */
+
+.wsd-save{
+    transition:.25s;
+  }
+  
+  .wsd-save:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px rgba(255,90,120,.4);
+  }
+
+
+  /* ===============================
+   HEART POP ANIMATION
+================================ */
+
+.heart-pop{
+    animation:heartPop .35s ease;
+  }
+  
+  @keyframes heartPop{
+  
+    0%{
+      transform:scale(1);
+    }
+  
+    40%{
+      transform:scale(1.25);
+    }
+  
+    70%{
+      transform:scale(.9);
+    }
+  
+    100%{
+      transform:scale(1);
+    }
+  
+  }
+
+
+
+  
 /* ================================
    MOBILE
 ================================ */

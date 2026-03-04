@@ -1,7 +1,7 @@
-import "../styles/CourseList.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
+import "../styles/CourseList.css";
 
 function CourseList({ courses }) {
   const [search, setSearch] = useState("");
