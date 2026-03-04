@@ -102,7 +102,6 @@ const AdminUpload = () => {
             id="fileInput"
             type="file"
             multiple
-            webkitdirectory="true"
             accept="application/pdf"
             onChange={handleFileChange}
             required

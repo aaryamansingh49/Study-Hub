@@ -19,7 +19,13 @@ const Worksheets = () => {
       const res = await axios.get(
         `http://localhost:5000/api/worksheets/groups/${courseId}`
       );
-      setGroups(res.data);
+  
+      const numbers = [
+        ...new Set(res.data.map(ws => ws.worksheetNumber))
+      ];
+  
+      setGroups(numbers);
+  
     } catch (error) {
       console.log(error);
     } finally {
@@ -31,7 +37,9 @@ const Worksheets = () => {
     <div className="worksheets-container">
       <div className="worksheets-header">
         <div className="header-left">
-          <button className="back-btn" onClick={() => navigate(-1)}>←</button>
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            ←
+          </button>
           <div className="header-text">
             <h2>Course Worksheets</h2>
             <p>Select a worksheet to view all sets</p>
@@ -50,13 +58,12 @@ const Worksheets = () => {
               </div>
 
               <button
-  className="ws-view-btn"
-  onClick={() =>
-    navigate(`/worksheets/${courseId}/${number}`)
-  }
->
-  View All Worksheets
-</button>
+                className="ws-view-btn"
+                
+                onClick={() => navigate(`/worksheets/${courseId}/${number}`)}
+              >
+                View All Worksheets
+              </button>
             </div>
           ))}
         </div>

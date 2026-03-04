@@ -66,6 +66,7 @@
     margin-bottom: 6px;
     font-size: 13px;
     font-weight: 500;
+    margin-left: 5px;
 }
 
 /* Inputs */
@@ -190,7 +191,8 @@ body.dark .form-group label {
 }
 @media (max-width: 480px) {
     .contact-form{
-        width:267px;
+        width:100%;
+        margin:auto;
     }
    
 

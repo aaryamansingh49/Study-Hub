@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
 import "../styles/AdminLogin.css";
@@ -7,6 +7,14 @@ const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // 🔐 If admin already logged in, redirect to admin panel
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    if (token) {
+      navigate("/admin-upload");
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,7 +40,7 @@ const AdminLogin = () => {
     <div className="admin-login-wrapper">
       <div className="admin-login-card">
         <h2 className="admin-title">Admin Panel</h2>
-        <p className="admin-subtitle">Login to manage Workshit</p>
+        <p className="admin-subtitle">Login to manage Worksheet</p>
 
         <form onSubmit={handleLogin}>
           <div className="input-group">

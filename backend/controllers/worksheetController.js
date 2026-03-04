@@ -1,26 +1,27 @@
 const Worksheet = require("../models/Worksheet");
 
+
 // Get all worksheets
 exports.getWorksheets = async (req, res) => {
   try {
 
-    // 🔥 If IDs are provided (Saved Collection use-case)
+    // If IDs are provided (Saved Collection use-case)
     if (req.query.ids) {
       const idsArray = req.query.ids.split(",");
 
       const worksheets = await Worksheet.find({
         _id: { $in: idsArray }
       })
-      .populate("course")   // ✅ YAHI ADD KARNA THA
-      .sort({ createdAt: -1 });
+        .populate("course")
+        .sort({ worksheetNumber: 1, title: 1 });
 
       return res.status(200).json(worksheets);
     }
 
-    // 🔥 Normal fetch (All Worksheets)
+    // Normal fetch (All Worksheets)
     const worksheets = await Worksheet.find()
-      .populate("course")   // ✅ Isme bhi daal do future safety ke liye
-      .sort({ createdAt: -1 });
+      .populate("course")
+      .sort({ worksheetNumber: 1, title: 1 });
 
     res.status(200).json(worksheets);
 
@@ -31,18 +32,19 @@ exports.getWorksheets = async (req, res) => {
     });
   }
 };
+
+
 // Get worksheets by course
 exports.getWorksheetsByCourse = async (req, res) => {
   try {
-    console.log("Incoming Course ID:", req.params.courseId);
 
     const worksheets = await Worksheet.find({
       course: req.params.courseId
-    });
-
-    console.log("Found Worksheets:", worksheets);
+    })
+      .sort({ worksheetNumber: 1, title: 1 });
 
     res.status(200).json(worksheets);
+
   } catch (error) {
     res.status(500).json({
       message: "Error fetching course worksheets",
@@ -52,40 +54,49 @@ exports.getWorksheetsByCourse = async (req, res) => {
 };
 
 
-// Get unique worksheet numbers (groups)
+// Get worksheet groups
 exports.getWorksheetGroups = async (req, res) => {
   try {
+
     const { courseId } = req.params;
 
-    const groups = await Worksheet.distinct("worksheetNumber", {
+    const worksheets = await Worksheet.find({
       course: courseId
-    });
+    })
+      .sort({ worksheetNumber: 1 });
 
-    res.json(groups.sort((a, b) => a - b));
+    res.json(worksheets);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get worksheets inside one group
+
+// Get worksheets by worksheetNumber
 exports.getWorksheetsByGroup = async (req, res) => {
   try {
+
     const { courseId, number } = req.params;
 
     const worksheets = await Worksheet.find({
       course: courseId,
       worksheetNumber: number
-    });
+    })
+      .sort({ title: 1 });
 
     res.json(worksheets);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+
 // Create worksheet
 exports.createWorksheet = async (req, res) => {
   try {
+
     const { courseId, fileUrl } = req.body;
 
     const worksheet = new Worksheet({
@@ -96,50 +107,69 @@ exports.createWorksheet = async (req, res) => {
     await worksheet.save();
 
     res.status(201).json(worksheet);
+
   } catch (error) {
-    res.status(500).json({ message: "Error creating worksheet", error });
+    res.status(500).json({
+      message: "Error creating worksheet",
+      error
+    });
   }
 };
+
 
 // Increase download count
 exports.incrementDownload = async (req, res) => {
   try {
+
     const worksheet = await Worksheet.findById(req.params.id);
 
     if (!worksheet) {
-      return res.status(404).json({ message: "Worksheet not found" });
+      return res.status(404).json({
+        message: "Worksheet not found"
+      });
     }
 
     worksheet.downloads += 1;
+
     await worksheet.save();
 
-    res.status(200).json({ message: "Download count updated", worksheet });
+    res.status(200).json({
+      message: "Download count updated",
+      worksheet
+    });
+
   } catch (error) {
-    res.status(500).json({ message: "Error updating download count", error });
+    res.status(500).json({
+      message: "Error updating download count",
+      error
+    });
   }
 };
 
 
-
-// Get Recent Worksheets (Homepage use)
+// Get Recent Worksheets (Homepage)
 exports.getRecentCoursesWithWorksheets = async (req, res) => {
   try {
+
     const recentWorksheets = await Worksheet.find()
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: 1 })
       .populate("course");
 
-    // Unique courses nikalna
     const uniqueCourses = [];
     const seen = new Set();
 
     for (let ws of recentWorksheets) {
+
       if (!seen.has(ws.course._id.toString())) {
+
         seen.add(ws.course._id.toString());
+
         uniqueCourses.push(ws.course);
       }
     }
 
-    res.status(200).json(uniqueCourses.slice(0, 6)); // latest 6 courses
+    res.status(200).json(uniqueCourses.slice(0, 6));
+
   } catch (error) {
     res.status(500).json({
       message: "Error fetching recent courses",
@@ -149,10 +179,10 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
 };
 
 
-//Upload Worksheet
-// Upload Worksheet Folder (Auto Set A, B, C...)
+// Upload Worksheet
 exports.uploadWorksheet = async (req, res) => {
   try {
+
     const { courseId, worksheetNumber } = req.body;
 
     if (!req.files || req.files.length === 0) {
@@ -163,29 +193,47 @@ exports.uploadWorksheet = async (req, res) => {
 
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    // Sort files alphabetically (optional but recommended)
+    const existingWorksheets = await Worksheet.find({
+      course: courseId,
+      worksheetNumber: worksheetNumber
+    });
+
+    const startIndex = existingWorksheets.length;
+
     const sortedFiles = req.files.sort((a, b) =>
       a.originalname.localeCompare(b.originalname)
     );
 
     for (let i = 0; i < sortedFiles.length; i++) {
+
       const file = sortedFiles[i];
+
+      const variantIndex = startIndex + i;
+
+      if (variantIndex >= alphabet.length) {
+        return res.status(400).json({
+          message: "Variant limit exceeded (max 26)"
+        });
+      }
+
+      const variantLetter = alphabet[variantIndex];
 
       await Worksheet.create({
         course: courseId,
-        worksheetNumber,
-        title: `Set ${alphabet[i]}`,   // 🔥 Auto title
+        worksheetNumber: worksheetNumber,
+        title: `Set ${variantLetter}`,
         fileUrl: `uploads/${file.filename}`
       });
+
     }
 
     res.status(201).json({
-      message: "Worksheet Folder Uploaded Successfully"
+      message: "Worksheet Uploaded Successfully"
     });
 
   } catch (error) {
     res.status(500).json({
-      message: "Error uploading worksheet folder",
+      message: "Error uploading worksheet",
       error: error.message
     });
   }

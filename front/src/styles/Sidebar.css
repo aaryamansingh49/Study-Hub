@@ -28,7 +28,7 @@ body.dark .sidebar {
 
 .logo {
     margin-bottom: 20px;
-    margin-left: 50px;
+    margin-left: 30px;
 }
 
 .logo h2 {
@@ -111,7 +111,7 @@ body.dark .sidebar {
 @media (max-width: 768px) {
     .logo {
         margin-bottom: 20px;
-        margin-left: 10px;
+        margin-left: 30px;
     }
     
     .logo h2 {

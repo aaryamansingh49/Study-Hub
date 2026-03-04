@@ -52,7 +52,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         <li onClick={() => setSidebarOpen(false)}>
           <NavLink to="/notices">
             <FiBell className="icon" />
-            <span>Notices</span>
+            <span>Papers</span>
           </NavLink>
         </li>
 
