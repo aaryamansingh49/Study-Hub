@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import {
+  getSavedWorksheets,
+  removeSavedWorksheet
+} from "../api/savedApi";
 import "../styles/SavedCollection.css";
 
 const SavedCollection = () => {
@@ -18,9 +21,7 @@ const SavedCollection = () => {
   const fetchSaved = async () => {
     try {
 
-      const res = await axios.get(
-        `http://localhost:5000/api/saved/user/${user.email}`
-      );
+      const res = await getSavedWorksheets(user.email);
 
       const worksheetData = res.data.map((item) => item.worksheet);
 
@@ -33,12 +34,11 @@ const SavedCollection = () => {
     setLoading(false);
   };
 
-
   const removeSaved = async (id) => {
 
     try {
 
-      await axios.post("http://localhost:5000/api/saved/remove", {
+      await removeSavedWorksheet({
         email: user.email,
         worksheetId: id
       });
@@ -46,11 +46,15 @@ const SavedCollection = () => {
       const card = document.getElementById(`saved-${id}`);
 
       if (card) {
+
         card.classList.add("remove-animation");
 
         setTimeout(() => {
-          setWorksheets((prev) => prev.filter((ws) => ws._id !== id));
+          setWorksheets((prev) =>
+            prev.filter((ws) => ws._id !== id)
+          );
         }, 300);
+
       }
 
       toast("Removed from saved");
@@ -58,21 +62,20 @@ const SavedCollection = () => {
     } catch (err) {
       toast.error("Failed to remove");
     }
-
   };
-
 
   if (!user) {
     return (
       <div className="saved-container">
-        <p className="saved-empty">Please login to view saved worksheets.</p>
+        <p className="saved-empty">
+          Please login to view saved worksheets.
+        </p>
       </div>
     );
   }
 
   return (
     <div className="saved-container">
-
       <div className="saved-header">
 
         <div>
@@ -82,15 +85,14 @@ const SavedCollection = () => {
           </p>
         </div>
 
-        <span className="saved-count">{worksheets.length} Saved</span>
+        <span className="saved-count">
+          {worksheets.length} Saved
+        </span>
 
       </div>
 
-
       {loading ? (
-
         <p className="saved-loading">Loading...</p>
-
       ) : worksheets.length > 0 ? (
 
         <div className="saved-grid">
@@ -104,15 +106,13 @@ const SavedCollection = () => {
             >
 
               <div className="saved-top">
-
                 <h3>{ws.title}</h3>
-
                 <span className="saved-badge">❤️ Saved</span>
-
               </div>
 
               <p className="saved-meta">
-                <strong>Course:</strong> {ws.course?.program} - Sem {ws.course?.semester} - {ws.course?.code}
+                <strong>Course:</strong>
+                {ws.course?.program} - Sem {ws.course?.semester}
               </p>
 
               <p className="saved-meta">
@@ -123,13 +123,18 @@ const SavedCollection = () => {
                 <strong>Worksheet:</strong> {ws.worksheetNumber}
               </p>
 
-              <p className="saved-downloads">{ws.downloads} Downloads</p>
+              <p className="saved-downloads">
+                {ws.downloads} Downloads
+              </p>
 
               <div className="saved-actions">
 
                 <button
                   onClick={() =>
-                    window.open(`http://localhost:5000/${ws.fileUrl}`, "_blank")
+                    window.open(
+                      `${import.meta.env.VITE_API_URL.replace("/api","")}/${ws.fileUrl}`,
+                      "_blank"
+                    )
                   }
                   className="saved-preview"
                 >
@@ -152,9 +157,9 @@ const SavedCollection = () => {
         </div>
 
       ) : (
-
-        <p className="saved-empty">No saved worksheets yet.</p>
-
+        <p className="saved-empty">
+          No saved worksheets yet.
+        </p>
       )}
 
     </div>

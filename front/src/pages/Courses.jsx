@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import CourseList from "../components/CourseList";
+import { getCourses } from "../api/courseApi";
 import "../styles/Courses.css";
 
 function Courses() {
+
   const [courses, setCourses] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
 
   const program = searchParams.get("program") || "";
   const semester = searchParams.get("semester") || "";
-
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchCourses();
@@ -19,11 +19,13 @@ function Courses() {
 
   const fetchCourses = async () => {
     try {
+
       setLoading(true);
-      const response = await axios.get(
-        `http://localhost:5000/api/courses?program=${program}&semester=${semester}`
-      );
+
+      const response = await getCourses(program, semester);
+
       setCourses(response.data);
+
     } catch (err) {
       console.log(err);
     } finally {
@@ -54,6 +56,7 @@ function Courses() {
       </div>
 
       <div className="filters">
+
         <select
           className="filter-select"
           value={program}
@@ -75,6 +78,7 @@ function Courses() {
           <option value="3">Semester 3</option>
           <option value="4">Semester 4</option>
         </select>
+
       </div>
 
       {loading ? (

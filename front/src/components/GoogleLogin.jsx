@@ -2,8 +2,8 @@ import "../styles/TopBar.css";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../services/firebase";
 import toast from "react-hot-toast";
-import axios from "axios";
-import "../styles/GoogleLogin.css"
+import { googleLogin } from "../api/authApi";
+import "../styles/GoogleLogin.css";
 
 const GoogleLogin = () => {
 
@@ -16,15 +16,13 @@ const GoogleLogin = () => {
       const userData = {
         name: user.displayName,
         email: user.email,
-        photo: user.photoURL,
+        photo: user.photoURL?.replace("s96-c", "s400-c"),
         uid: user.uid
       };
 
-      // localStorage
       localStorage.setItem("googleUser", JSON.stringify(userData));
 
-      // 🔥 Backend API call (MongoDB me save karne ke liye)
-      await axios.post("http://localhost:5000/api/users/google-login", userData);
+      await googleLogin(userData);
 
       toast.success("Logged in successfully");
 
@@ -38,7 +36,11 @@ const GoogleLogin = () => {
 
   return (
     <button className="google-login-btn" onClick={handleLogin}>
-      <img src="/google.svg" alt="google"/>
+      <img
+        src="/google.svg"
+        alt="google"
+        referrerPolicy="no-referrer"
+      />
       Login with Google
     </button>
   );
