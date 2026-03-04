@@ -22,6 +22,10 @@ const WorksheetDetails = () => {
     }
   }, []);
 
+  // ======================
+  // FETCH WORKSHEETS
+  // ======================
+
   const fetchWorksheets = async () => {
     try {
       const res = await axios.get(
@@ -31,6 +35,7 @@ const WorksheetDetails = () => {
       setWorksheets(res.data);
     } catch (error) {
       console.log(error);
+      toast.error("Failed to load worksheets");
     } finally {
       setLoading(false);
     }
@@ -54,24 +59,53 @@ const WorksheetDetails = () => {
     }
   };
 
-  const handleDownload = async (worksheet) => {
-    toast.success("Download started");
-
-    await axios.put(
-      `http://localhost:5000/api/worksheets/${worksheet._id}/download`
-    );
-
-    window.open(`http://localhost:5000/${worksheet.fileUrl}`, "_blank");
-
-    fetchWorksheets();
-  };
+  // ======================
+  // PREVIEW PDF
+  // ======================
 
   const handlePreview = (worksheet) => {
-    window.open(`http://localhost:5000/${worksheet.fileUrl}`, "_blank");
+    const fileUrl = `http://localhost:5000/${worksheet.fileUrl}`;
+    window.open(fileUrl, "_blank");
   };
 
   // ======================
-  // SAVE TOGGLE
+  // DOWNLOAD FILE
+  // ======================
+
+  const handleDownload = async (worksheet) => {
+    try {
+      toast.success("Download started");
+
+      await axios.put(
+        `http://localhost:5000/api/worksheets/${worksheet._id}/download`
+      );
+
+      const fileUrl = `http://localhost:5000/${worksheet.fileUrl}`;
+
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = worksheet.title + ".pdf";
+
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      fetchWorksheets();
+    } catch (error) {
+      console.log(error);
+      toast.error("Download failed");
+    }
+  };
+
+  // ======================
+  // SAVE / UNSAVE
   // ======================
 
   const toggleSave = async (id) => {
@@ -101,6 +135,7 @@ const WorksheetDetails = () => {
         toast.success("Added to saved ❤️");
       }
     } catch (err) {
+      console.log(err);
       toast.error("Action failed");
     }
   };
@@ -130,7 +165,9 @@ const WorksheetDetails = () => {
               <div className="wsd-card-top">
                 <h3>{ws.title}</h3>
 
-                <span className="download-count">{ws.downloads} Downloads</span>
+                <span className="download-count">
+                  {ws.downloads} Downloads
+                </span>
               </div>
 
               <div className="wsd-action-row">

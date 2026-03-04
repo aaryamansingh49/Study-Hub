@@ -10,11 +10,7 @@ import "../styles/Dashboard.css";
 
 function Dashboard() {
 
-  // const [stats, setStats] = useState({
-  //   worksheetCount: 0,
-  //   projectCount: 0,
-  //   courseCount: 0
-  // });
+
 
   useEffect(() => {
     fetchStats();
