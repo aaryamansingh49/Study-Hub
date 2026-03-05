@@ -35,7 +35,7 @@ const AdminUpload = () => {
       return;
     }
 
-    const token = localStorage.getItem("adminToken");
+    // const token = localStorage.getItem("adminToken");
 
     const formData = new FormData();
     formData.append("courseId", selectedCourse);
@@ -47,20 +47,11 @@ const AdminUpload = () => {
     }
 
     try {
-      await API.post("/worksheets/upload", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data"
-        }
-      });
 
+      await API.post("/worksheets/upload", formData);
+    
       alert("Worksheet Folder Uploaded Successfully!");
-
-      // Reset form
-      setWorksheetNumber("");
-      setFiles([]);
-      document.getElementById("fileInput").value = "";
-
+    
     } catch (error) {
       alert("Upload Failed");
       console.log(error);

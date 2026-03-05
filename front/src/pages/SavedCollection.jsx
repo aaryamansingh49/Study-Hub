@@ -23,7 +23,9 @@ const SavedCollection = () => {
 
       const res = await getSavedWorksheets(user.email);
 
-      const worksheetData = res.data.map((item) => item.worksheet);
+      const worksheetData = res.data
+  .map((item) => item?.worksheet)
+  .filter(Boolean);
 
       setWorksheets(worksheetData);
 

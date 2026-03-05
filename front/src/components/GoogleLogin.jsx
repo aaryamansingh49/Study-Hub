@@ -16,7 +16,7 @@ const GoogleLogin = () => {
       const userData = {
         name: user.displayName,
         email: user.email,
-        photo: user.photoURL?.replace("s96-c", "s400-c"),
+        photo: user.photoURL,
         uid: user.uid
       };
 
@@ -36,10 +36,9 @@ const GoogleLogin = () => {
 
   return (
     <button className="google-login-btn" onClick={handleLogin}>
-      <img
+       <img
         src="/google.svg"
         alt="google"
-        referrerPolicy="no-referrer"
       />
       Login with Google
     </button>

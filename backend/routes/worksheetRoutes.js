@@ -10,7 +10,8 @@ const {
   getWorksheetGroups,
   getWorksheetsByGroup,
   incrementDownload,
-  uploadWorksheet
+  uploadWorksheet,
+  deleteWorksheet
 } = worksheetController;
 
 const protectAdmin = require("../middleware/authMiddleware");
@@ -26,6 +27,7 @@ router.get("/groups/:courseId", getWorksheetGroups);
 router.get("/group/:courseId/:number", getWorksheetsByGroup);
 
 router.put("/:id/download", incrementDownload);
+router.delete("/worksheet/:id", deleteWorksheet);
 
 // Admin Upload
 router.post(

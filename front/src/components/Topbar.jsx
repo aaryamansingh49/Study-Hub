@@ -18,21 +18,17 @@ function Topbar({ setSidebarOpen }) {
   );
 
   const handleSearch = (e) => {
-
     if (e.key === "Enter") {
-  
       const value = search.trim();
-  
+
       if (!value) return;
-  
+
       const program = value.toUpperCase();
-  
+
       navigate(`/courses?program=${encodeURIComponent(program)}`);
-  
+
       setSearch("");
-  
     }
-  
   };
 
   useEffect(() => {
@@ -93,7 +89,16 @@ function Topbar({ setSidebarOpen }) {
           <GoogleLogin />
         ) : (
           <div className="user-profile">
-            <img src={user.photo} alt="user" />
+              <div className="avatar">
+            <img
+              src={user.photo}
+              alt="user"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.target.src = "/default-avatar.png";
+              }}
+            />
+            </div>
 
             <span>{user.name}</span>
 

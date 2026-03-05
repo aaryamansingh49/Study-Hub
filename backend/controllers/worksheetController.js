@@ -1,27 +1,28 @@
 const Worksheet = require("../models/Worksheet");
-
+const redisClient = require("../config/redis");
+const fs = require("fs");
+const path = require("path");
 
 // Get all worksheets
 exports.getWorksheets = async (req, res) => {
   try {
 
-    // If IDs are provided (Saved Collection use-case)
-    if (req.query.ids) {
-      const idsArray = req.query.ids.split(",");
+    const cacheKey = "worksheets:all";
 
-      const worksheets = await Worksheet.find({
-        _id: { $in: idsArray }
-      })
-        .populate("course")
-        .sort({ worksheetNumber: 1, title: 1 });
+    const cached = await redisClient.get(cacheKey);
 
-      return res.status(200).json(worksheets);
+    if (cached) {
+      console.log("Redis Cache Hit");
+      return res.status(200).json(JSON.parse(cached));
     }
 
-    // Normal fetch (All Worksheets)
     const worksheets = await Worksheet.find()
       .populate("course")
       .sort({ worksheetNumber: 1, title: 1 });
+
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(worksheets));
+
+    console.log("MongoDB Hit");
 
     res.status(200).json(worksheets);
 
@@ -38,10 +39,21 @@ exports.getWorksheets = async (req, res) => {
 exports.getWorksheetsByCourse = async (req, res) => {
   try {
 
+    const courseId = req.params.courseId;
+
+    const cacheKey = `worksheets:course:${courseId}`;
+
+    const cached = await redisClient.get(cacheKey);
+
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    }
+
     const worksheets = await Worksheet.find({
-      course: req.params.courseId
-    })
-      .sort({ worksheetNumber: 1, title: 1 });
+      course: courseId
+    }).sort({ worksheetNumber: 1, title: 1 });
+
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(worksheets));
 
     res.status(200).json(worksheets);
 
@@ -151,6 +163,14 @@ exports.incrementDownload = async (req, res) => {
 exports.getRecentCoursesWithWorksheets = async (req, res) => {
   try {
 
+    const cacheKey = "worksheets:recentCourses";
+
+    const cached = await redisClient.get(cacheKey);
+
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    }
+
     const recentWorksheets = await Worksheet.find()
       .sort({ createdAt: 1 })
       .populate("course");
@@ -159,16 +179,17 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
     const seen = new Set();
 
     for (let ws of recentWorksheets) {
-
       if (!seen.has(ws.course._id.toString())) {
-
         seen.add(ws.course._id.toString());
-
         uniqueCourses.push(ws.course);
       }
     }
 
-    res.status(200).json(uniqueCourses.slice(0, 6));
+    const result = uniqueCourses.slice(0, 6);
+
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(result));
+
+    res.status(200).json(result);
 
   } catch (error) {
     res.status(500).json({
@@ -177,7 +198,6 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
     });
   }
 };
-
 
 // Upload Worksheet
 exports.uploadWorksheet = async (req, res) => {
@@ -191,49 +211,99 @@ exports.uploadWorksheet = async (req, res) => {
       });
     }
 
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
     const existingWorksheets = await Worksheet.find({
       course: courseId,
       worksheetNumber: worksheetNumber
     });
 
-    const startIndex = existingWorksheets.length;
+    // find already used letters
+    const usedLetters = existingWorksheets.map(ws =>
+      ws.title.replace("Set ", "")
+    );
+
+    // available letters
+    const availableLetters = alphabet.filter(
+      letter => !usedLetters.includes(letter)
+    );
+
+    if (req.files.length > availableLetters.length) {
+      return res.status(400).json({
+        message: "Variant limit exceeded (max 26)"
+      });
+    }
 
     const sortedFiles = req.files.sort((a, b) =>
       a.originalname.localeCompare(b.originalname)
     );
 
+    const newWorksheets = [];
+
     for (let i = 0; i < sortedFiles.length; i++) {
 
       const file = sortedFiles[i];
+      const variantLetter = availableLetters[i];
 
-      const variantIndex = startIndex + i;
-
-      if (variantIndex >= alphabet.length) {
-        return res.status(400).json({
-          message: "Variant limit exceeded (max 26)"
-        });
-      }
-
-      const variantLetter = alphabet[variantIndex];
-
-      await Worksheet.create({
+      const worksheet = await Worksheet.create({
         course: courseId,
         worksheetNumber: worksheetNumber,
         title: `Set ${variantLetter}`,
         fileUrl: `uploads/${file.filename}`
       });
 
+      newWorksheets.push(worksheet);
     }
 
+    // Clear redis cache once
+    await redisClient.flushAll();
+
     res.status(201).json({
-      message: "Worksheet Uploaded Successfully"
+      message: "Worksheet Uploaded Successfully",
+      worksheets: newWorksheets
     });
 
   } catch (error) {
     res.status(500).json({
       message: "Error uploading worksheet",
+      error: error.message
+    });
+  }
+};
+
+
+exports.deleteWorksheet = async (req, res) => {
+  try {
+
+    const worksheet = await Worksheet.findById(req.params.id);
+
+    if (!worksheet) {
+      return res.status(404).json({
+        message: "Worksheet not found"
+      });
+    }
+
+    // file ka full path
+    const filePath = path.join(__dirname, "..", worksheet.fileUrl);
+
+    // agar file exist karti hai to delete karo
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // DB se delete
+    await Worksheet.findByIdAndDelete(req.params.id);
+
+    // Redis cache clear
+    await redisClient.flushAll();
+
+    res.json({
+      message: "Worksheet deleted successfully"
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting worksheet",
       error: error.message
     });
   }
