@@ -9,7 +9,11 @@ const cors = require("cors");
 // Middleware
 
 app.use(cors({
-  origin:   "http://localhost:5173",
+  origin: [
+    "http://localhost:5173",
+    "https://study-hub.vercel.app",
+    "https://studyhub.netlify.app"
+  ],
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type","Authorization"]
 }));
