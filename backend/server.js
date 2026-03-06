@@ -11,8 +11,7 @@ const cors = require("cors");
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://study-hub.vercel.app",
-    "https://studyhub.netlify.app"
+    "https://prince-20451.github.io"
   ],
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type","Authorization"]
