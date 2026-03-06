@@ -7,15 +7,13 @@ require("./config/redis");
 const app = express();
 const cors = require("cors");
 // Middleware
+
 app.use(cors({
-  origin: "*"
+  origin:   "http://localhost:5173",
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"]
 }));
-// app.use(cors({
-//   origin:   "http://localhost:5173",
-//   methods: ["GET","POST","PUT","DELETE"],
-//   allowedHeaders: ["Content-Type","Authorization"]
-// }));
-// app.options("*", cors());
+app.options("*", cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
