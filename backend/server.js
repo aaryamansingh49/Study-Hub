@@ -32,7 +32,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/saved", savedRoutes);
 
 // Static folder for PDFs
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 // MongoDB Atlas Connection
 mongoose
   .connect(process.env.MONGO_URI)
