@@ -6,46 +6,50 @@ exports.getCourses = async (req, res) => {
   try {
 
     const { program, semester } = req.query;
-
     const cacheKey = `courses:${program || "all"}:${semester || "all"}`;
 
-    const cachedData = await redisClient.get(cacheKey);
+    let cachedData;
+
+    try {
+      cachedData = await redisClient.get(cacheKey);
+    } catch (err) {
+      console.log("Redis read error:", err.message);
+    }
 
     if (cachedData) {
       console.log("Cache Hit ✅");
-      return res.status(200).json(JSON.parse(cachedData));
+
+      const data =
+        typeof cachedData === "string"
+          ? JSON.parse(cachedData)
+          : cachedData;
+
+      return res.status(200).json(data);
     }
 
     let filter = {};
-
-    if (program) {
-      filter.program = program;
-    }
-
-    if (semester) {
-      filter.semester = semester;
-    }
+    if (program) filter.program = program;
+    if (semester) filter.semester = semester;
 
     const courses = await Course.find(filter).sort({ createdAt: -1 });
 
-    await redisClient.set(
-      cacheKey,
-      JSON.stringify(courses),
-      { ex: 3600 }
-    );
+    try {
+      await redisClient.set(cacheKey, JSON.stringify(courses), { ex: 3600 });
+    } catch (err) {
+      console.log("Redis write error:", err.message);
+    }
 
     console.log("MongoDB Hit ❌");
 
     res.status(200).json(courses);
 
   } catch (error) {
+    console.log("Controller error:", error);
     res.status(500).json({
-      message: "Error fetching courses",
-      error
+      message: "Error fetching courses"
     });
   }
 };
-
 
 // CREATE Course
 exports.createCourse = async (req, res) => {
