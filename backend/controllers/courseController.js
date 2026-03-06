@@ -28,10 +28,10 @@ exports.getCourses = async (req, res) => {
 
     const courses = await Course.find(filter).sort({ createdAt: -1 });
 
-    await redisClient.setEx(
+    await redisClient.set(
       cacheKey,
-      3600,
-      JSON.stringify(courses)
+      JSON.stringify(courses),
+      { ex: 3600 }
     );
 
     console.log("MongoDB Hit ❌");
@@ -61,8 +61,11 @@ exports.createCourse = async (req, res) => {
 
     await newCourse.save();
 
-    // 🔥 Clear cache when new course added
-    await redisClient.flushAll();
+    // 🔥 Clear related course cache
+    await redisClient.del(`courses:${program || "all"}:${semester || "all"}`);
+    await redisClient.del(`courses:${program || "all"}:all`);
+    await redisClient.del(`courses:all:${semester || "all"}`);
+    await redisClient.del(`courses:all:all`);
 
     res.status(201).json(newCourse);
 

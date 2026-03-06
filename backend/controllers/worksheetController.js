@@ -20,7 +20,7 @@ exports.getWorksheets = async (req, res) => {
       .populate("course")
       .sort({ worksheetNumber: 1, title: 1 });
 
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(worksheets));
+    await redisClient.set(cacheKey, JSON.stringify(worksheets), { ex: 3600 });
 
     console.log("MongoDB Hit");
 
@@ -53,7 +53,7 @@ exports.getWorksheetsByCourse = async (req, res) => {
       course: courseId
     }).sort({ worksheetNumber: 1, title: 1 });
 
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(worksheets));
+    await redisClient.set(cacheKey, JSON.stringify(worksheets), { ex: 3600 });
 
     res.status(200).json(worksheets);
 
@@ -118,6 +118,9 @@ exports.createWorksheet = async (req, res) => {
 
     await worksheet.save();
 
+    // clear relevant cache
+    await redisClient.del("worksheets:all");
+
     res.status(201).json(worksheet);
 
   } catch (error) {
@@ -172,7 +175,7 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
     }
 
     const recentWorksheets = await Worksheet.find()
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .populate("course");
 
     const uniqueCourses = [];
@@ -187,7 +190,7 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
 
     const result = uniqueCourses.slice(0, 6);
 
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(result));
+    await redisClient.set(cacheKey, JSON.stringify(result), { ex: 3600 });
 
     res.status(200).json(result);
 
@@ -198,6 +201,7 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
     });
   }
 };
+
 
 // Upload Worksheet
 exports.uploadWorksheet = async (req, res) => {
@@ -218,12 +222,10 @@ exports.uploadWorksheet = async (req, res) => {
       worksheetNumber: worksheetNumber
     });
 
-    // find already used letters
     const usedLetters = existingWorksheets.map(ws =>
       ws.title.replace("Set ", "")
     );
 
-    // available letters
     const availableLetters = alphabet.filter(
       letter => !usedLetters.includes(letter)
     );
@@ -255,8 +257,10 @@ exports.uploadWorksheet = async (req, res) => {
       newWorksheets.push(worksheet);
     }
 
-    // Clear redis cache once
-    await redisClient.flushAll();
+    // clear cache
+    await redisClient.del("worksheets:all");
+    await redisClient.del("worksheets:recentCourses");
+    await redisClient.del(`worksheets:course:${courseId}`);
 
     res.status(201).json({
       message: "Worksheet Uploaded Successfully",
@@ -283,19 +287,18 @@ exports.deleteWorksheet = async (req, res) => {
       });
     }
 
-    // file ka full path
     const filePath = path.join(__dirname, "..", worksheet.fileUrl);
 
-    // agar file exist karti hai to delete karo
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
 
-    // DB se delete
     await Worksheet.findByIdAndDelete(req.params.id);
 
-    // Redis cache clear
-    await redisClient.flushAll();
+    // clear cache
+    await redisClient.del("worksheets:all");
+    await redisClient.del("worksheets:recentCourses");
+    await redisClient.del(`worksheets:course:${worksheet.course}`);
 
     res.json({
       message: "Worksheet deleted successfully"
