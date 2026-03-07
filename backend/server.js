@@ -12,7 +12,8 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://prince-20451.github.io",
-      "https://aaryamansingh49.github.io"
+      "https://aaryamansingh49.github.io",
+       "https://workshiit.netlify.app"
   ],
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type","Authorization"]
