@@ -11,7 +11,8 @@ const cors = require("cors");
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://prince-20451.github.io"
+    "https://prince-20451.github.io",
+      "https://aaryamansingh49.github.io"
   ],
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type","Authorization"]
