@@ -161,17 +161,30 @@ exports.incrementDownload = async (req, res) => {
   }
 };
 
-
-// Get Recent Worksheets (Homepage)
+// Get Recent Courses (Homepage)
 exports.getRecentCoursesWithWorksheets = async (req, res) => {
   try {
 
     const cacheKey = "worksheets:recentCourses";
 
-    const cached = await redisClient.get(cacheKey);
+    let cached;
+
+    try {
+      cached = await redisClient.get(cacheKey);
+    } catch (err) {
+      console.log("Redis read error:", err.message);
+    }
 
     if (cached) {
-      return res.json(JSON.parse(cached));
+
+      const data =
+        typeof cached === "string"
+          ? JSON.parse(cached)
+          : cached;
+
+      console.log("Redis Cache Hit ✅");
+
+      return res.status(200).json(data);
     }
 
     const recentWorksheets = await Worksheet.find()
@@ -182,23 +195,48 @@ exports.getRecentCoursesWithWorksheets = async (req, res) => {
     const seen = new Set();
 
     for (let ws of recentWorksheets) {
-      if (!seen.has(ws.course._id.toString())) {
-        seen.add(ws.course._id.toString());
+
+      if (!ws.course) continue;
+
+      const courseId = ws.course._id.toString();
+
+      if (!seen.has(courseId)) {
+
+        seen.add(courseId);
+
         uniqueCourses.push(ws.course);
+
       }
+
+      if (uniqueCourses.length === 6) break;
+
     }
 
-    const result = uniqueCourses.slice(0, 6);
+    const result = uniqueCourses;
 
-    await redisClient.set(cacheKey, JSON.stringify(result), { ex: 3600 });
+    try {
+      await redisClient.set(
+        cacheKey,
+        JSON.stringify(result),
+        { ex: 3600 }
+      );
+    } catch (err) {
+      console.log("Redis write error:", err.message);
+    }
+
+    console.log("MongoDB Hit ❌");
 
     res.status(200).json(result);
 
   } catch (error) {
+
+    console.log("Recent Courses Error:", error);
+
     res.status(500).json({
       message: "Error fetching recent courses",
       error: error.message
     });
+
   }
 };
 

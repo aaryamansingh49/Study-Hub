@@ -19,6 +19,7 @@ function RecentlyAdded() {
     try {
 
       const res = await getRecentCourses();
+      setCourses(Array.isArray(res.data) ? res.data : []);
       setCourses(res.data);
 
     } catch (error) {

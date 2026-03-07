@@ -1,11 +1,5 @@
 const Course = require("../models/Course");
-let redisClient;
-
-try {
-  redisClient = require("../config/redis");
-} catch {
-  console.log("Redis not available, running without cache");
-}
+const redisClient = require("../config/redis");
 
 // GET Courses
 exports.getCourses = async (req, res) => {
@@ -14,19 +8,23 @@ exports.getCourses = async (req, res) => {
     const { program, semester } = req.query;
     const cacheKey = `courses:${program || "all"}:${semester || "all"}`;
 
-    // try cache
-    if (redisClient) {
-      try {
-        const cachedData = await redisClient.get(cacheKey);
+    let cachedData;
 
-        if (cachedData) {
-          console.log("Cache Hit ✅");
-          return res.status(200).json(JSON.parse(cachedData));
-        }
+    try {
+      cachedData = await redisClient.get(cacheKey);
+    } catch (err) {
+      console.log("Redis read error:", err.message);
+    }
 
-      } catch (err) {
-        console.log("Redis read error:", err.message);
-      }
+    if (cachedData) {
+      console.log("Cache Hit ✅");
+
+      const data =
+        typeof cachedData === "string"
+          ? JSON.parse(cachedData)
+          : cachedData;
+
+      return res.status(200).json(data);
     }
 
     let filter = {};
@@ -35,13 +33,10 @@ exports.getCourses = async (req, res) => {
 
     const courses = await Course.find(filter).sort({ createdAt: -1 });
 
-    // save cache
-    if (redisClient) {
-      try {
-        await redisClient.set(cacheKey, JSON.stringify(courses), { EX: 3600 });
-      } catch (err) {
-        console.log("Redis write error:", err.message);
-      }
+    try {
+      await redisClient.set(cacheKey, JSON.stringify(courses), { ex: 3600 });
+    } catch (err) {
+      console.log("Redis write error:", err.message);
     }
 
     console.log("MongoDB Hit ❌");
