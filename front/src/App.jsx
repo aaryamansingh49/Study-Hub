@@ -25,6 +25,17 @@ import Contact from "./pages/Contact";
 function AnimatedRoutes() {
   const location = useLocation();
 
+  
+  /* 🔥 Google Analytics Page Tracking */
+  useEffect(() => {
+    if (window.gtag) {
+      window.gtag("config", "G-ZGWPEC3VDQ", {
+        page_path: location.pathname,
+      });
+    }
+  }, [location]);
+
+
   return (
     <>
     <ScrollToTop />
