@@ -1,10 +1,5 @@
-import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
@@ -21,12 +16,11 @@ import SavedCollection from "./pages/SavedCollection";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 
-/* 🔥 Animated Router Wrapper */
+/* Animated Router Wrapper */
 function AnimatedRoutes() {
   const location = useLocation();
 
-  
-  /* 🔥 Google Analytics Page Tracking */
+  /* Google Analytics Page Tracking */
   useEffect(() => {
     if (window.gtag) {
       window.gtag("config", "G-ZGWPEC3VDQ", {
@@ -35,42 +29,41 @@ function AnimatedRoutes() {
     }
   }, [location]);
 
-
   return (
     <>
-    <ScrollToTop />
-    <AnimatePresence mode="wait">
-     
-      <Routes location={location} key={location.pathname}>
+      <ScrollToTop />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Public Layout */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="courses" element={<Courses />} />
+            <Route path="worksheets/:courseId" element={<Worksheets />} />
+            <Route
+              path="worksheets/:courseId/:number"
+              element={<WorksheetDetails />}
+            />
+            <Route path="projects" element={<Projects />} />
+            <Route path="notices" element={<Notices />} />
+            <Route path="saved" element={<SavedCollection />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
 
-        {/* Public Layout */}
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="courses" element={<Courses />} />
-          <Route path="worksheets/:courseId" element={<Worksheets />} />
-          <Route path="worksheets/:courseId/:number" element={<WorksheetDetails />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="notices" element={<Notices />} />
-          <Route path="saved" element={<SavedCollection />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-        </Route>
-        
 
-        {/* Admin Routes */}
-        <Route path="/admin-login" element={<AdminLogin />} />
-
-        <Route
-          path="/admin-upload"
-          element={
-            <ProtectedRoute>
-              <AdminUpload />
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
-    </AnimatePresence>
+          {/* Admin Routes */}
+          {/* SECRET ADMIN LOGIN */ }
+          <Route path="/control-worksheet-admin-92" element={<AdminLogin />} />
+          <Route
+            path="/admin-upload"
+            element={
+              <ProtectedRoute>
+                <AdminUpload />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
     </>
   );
 }
@@ -78,9 +71,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-    
       <AnimatedRoutes />
     </BrowserRouter>
-    
   );
 }

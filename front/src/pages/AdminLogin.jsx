@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 import API from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import "../styles/AdminLogin.css";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const key = params.get("key");
+
+   // 🔐 Secret key check
+   if (key !== import.meta.env.VITE_ADMIN_KEY) {
+    return <Navigate to="/" />;
+  }
 
   // 🔐 If admin already logged in, redirect to admin panel
   useEffect(() => {
